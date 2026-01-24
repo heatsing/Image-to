@@ -3,12 +3,19 @@
  */
 
 export function getBaseUrl(): string {
+  // 优先使用 NEXT_PUBLIC_SITE_URL（用户配置的域名）
   if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
+    const url = process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url
+    }
+    return `https://${url}`
   }
+  // Vercel 部署时自动提供 VERCEL_URL
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`
   }
+  // 默认回退 URL（构建时或本地开发）
   return 'https://image-to.vercel.app'
 }
 

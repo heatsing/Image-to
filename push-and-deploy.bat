@@ -17,7 +17,7 @@ git status
 
 echo.
 echo 3. 提交...
-git commit -m "Nav center on desktop; Footer, About/Security/Terms/Privacy/Contact, sitemap" 2>nul
+git commit -m "Fix: add missing Link imports, optimize next.config, improve getBaseUrl" 2>nul
 if errorlevel 1 (
     echo 无新提交或已提交，继续推送...
 ) else (
