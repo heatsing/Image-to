@@ -1,11 +1,36 @@
 import Navigation from '@/components/Navigation'
+import Footer from '@/components/Footer'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
+import { getBaseUrl } from '@/lib/seo'
+
+const baseUrl = getBaseUrl()
 
 export const metadata: Metadata = {
   title: 'Image to WebP Converter - Free Online Tool',
-  description: '100% free online tool. Convert images to WebP locally—no uploads, no signup. Your files never leave your device.',
+  description:
+    '100% free. Convert images to WebP locally—no uploads, no signup. Your files never leave your device. 40+ formats. Batch convert.',
+  keywords: [
+    'image to WebP',
+    'convert to WebP',
+    'WebP converter',
+    'image converter',
+    'free WebP converter',
+    'local image conversion',
+  ],
+  openGraph: {
+    title: 'Image to WebP Converter - Free Online Tool',
+    description: '100% free. Convert images to WebP locally. No uploads, no signup. 40+ formats.',
+    url: `${baseUrl}/convert-to-webp`,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Image to WebP Converter - Free Online Tool',
+    description: '100% free. Convert images to WebP locally. No uploads, no signup.',
+  },
+  alternates: { canonical: `${baseUrl}/convert-to-webp` },
 }
 
 export default function ToWebPPage() {
@@ -56,12 +81,7 @@ export default function ToWebPPage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white mt-auto py-6 flex-shrink-0">
-        <div className="container mx-auto px-4 text-center text-sm text-slate-500">
-          <p>© 2025 Image to WebP Converter - 100% Free Online Tool</p>
-          <p className="text-xs mt-2">No signup · No uploads · 100% local conversion in your browser</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

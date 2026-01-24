@@ -1,4 +1,5 @@
 import Navigation from '@/components/Navigation'
+import Footer from '@/components/Footer'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import {
@@ -7,6 +8,7 @@ import {
   slugToLabel,
   getTargetLabel,
 } from '@/lib/formats'
+import { getBaseUrl } from '@/lib/seo'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -25,9 +27,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { source, target } = parsed
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
+  const baseUrl = getBaseUrl()
   const title = `${from} to ${to} Converter - Free Online Tool`
-  const description = `100% free. Convert ${from} to ${to} locally—no uploads, no signup. Your files never leave your device.`
-  return { title, description }
+  const description = `100% free. Convert ${from} to ${to} locally—no uploads, no signup. Your files never leave your device. 40+ formats. Batch convert.`
+  const url = `${baseUrl}/${slug}`
+  const kw = [
+    `${from} to ${to}`,
+    `convert ${from} to ${to}`,
+    `${from} to ${to} converter`,
+    'image converter',
+    'free image converter',
+  ]
+  return {
+    title,
+    description,
+    keywords: kw,
+    openGraph: { title, description, url, type: 'website' },
+    twitter: { card: 'summary_large_image', title, description },
+    alternates: { canonical: url },
+  }
 }
 
 export default async function ConverterSlugPage({ params }: Props) {
@@ -105,14 +123,7 @@ export default async function ConverterSlugPage({ params }: Props) {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white mt-auto py-6 flex-shrink-0">
-        <div className="container mx-auto px-4 text-center text-sm text-slate-500">
-          <p>© 2025 Image to {to} Converter - 100% Free Online Tool</p>
-          <p className="text-xs mt-2">
-            No signup · No uploads · 100% local conversion in your browser
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

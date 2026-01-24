@@ -17,7 +17,7 @@ git status
 
 echo.
 echo 3. 提交...
-git commit -m "convert-to-* routes, remove Preview, show converted size in list" 2>nul
+git commit -m "Add Footer with links, About/Security/Terms/Privacy/Contact pages; update sitemap" 2>nul
 if errorlevel 1 (
     echo 无新提交或已提交，继续推送...
 ) else (

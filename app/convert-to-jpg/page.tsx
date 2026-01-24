@@ -1,11 +1,36 @@
 import Navigation from '@/components/Navigation'
+import Footer from '@/components/Footer'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
+import { getBaseUrl } from '@/lib/seo'
+
+const baseUrl = getBaseUrl()
 
 export const metadata: Metadata = {
   title: 'Image to JPG Converter - Free Online Tool',
-  description: '100% free online tool. Convert images to JPG locally—no uploads, no signup. Your files never leave your device.',
+  description:
+    '100% free. Convert images to JPG locally—no uploads, no signup. Your files never leave your device. 40+ formats supported. Batch convert.',
+  keywords: [
+    'image to JPG',
+    'convert to JPG',
+    'JPG converter',
+    'image converter',
+    'free JPG converter',
+    'local image conversion',
+  ],
+  openGraph: {
+    title: 'Image to JPG Converter - Free Online Tool',
+    description: '100% free. Convert images to JPG locally. No uploads, no signup. 40+ formats.',
+    url: `${baseUrl}/convert-to-jpg`,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Image to JPG Converter - Free Online Tool',
+    description: '100% free. Convert images to JPG locally. No uploads, no signup.',
+  },
+  alternates: { canonical: `${baseUrl}/convert-to-jpg` },
 }
 
 export default function ToJPGPage() {
@@ -56,12 +81,7 @@ export default function ToJPGPage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white mt-auto py-6 flex-shrink-0">
-        <div className="container mx-auto px-4 text-center text-sm text-slate-500">
-          <p>© 2025 Image to JPG Converter - 100% Free Online Tool</p>
-          <p className="text-xs mt-2">No signup · No uploads · 100% local conversion in your browser</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
