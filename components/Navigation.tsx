@@ -7,7 +7,6 @@ export default function Navigation() {
   const pathname = usePathname()
 
   const navItems = [
-    { href: '/', label: 'Home' },
     { href: '/to-jpg', label: 'Images to JPG' },
     { href: '/to-webp', label: 'Images to WebP' },
     { href: '/to-png', label: 'Images to PNG' },

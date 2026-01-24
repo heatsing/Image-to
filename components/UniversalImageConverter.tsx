@@ -511,49 +511,90 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
           </div>
         ) : (
           <div className="w-full space-y-4">
-            {/* File List */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            {/* File List - 多张图片按行排列 */}
+            <div className="space-y-2 mb-4">
               {filesArray.map((fileState) => {
                 const isSelected = selectedFileId === fileState.file.id
                 return (
-                  <button
+                  <div
                     key={fileState.file.id}
                     onClick={() => setSelectedFileId(fileState.file.id)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    className={`flex items-center gap-4 p-3 rounded-xl border transition-colors cursor-pointer ${
                       isSelected
-                        ? 'bg-blue-500 text-white'
-                        : fileState.converted
-                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                          : fileState.error
-                            ? 'bg-red-100 text-red-700 hover:bg-red-200'
-                          : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                        ? 'bg-blue-50 border-blue-300 ring-1 ring-blue-200'
+                        : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300'
                     }`}
                   >
-                    <span className="truncate max-w-[120px]">{fileState.file.name}</span>
-                    {fileState.converted && <span className="text-xs">✓</span>}
-                    {fileState.converting && (
-                      <span className="animate-spin rounded-full h-3 w-3 border-2 border-current border-t-transparent"></span>
-                    )}
-                    {fileState.error && <span className="text-xs">✗</span>}
+                    {/* 缩略图 */}
+                    <div className="flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden bg-slate-100 flex items-center justify-center">
+                      {fileState.preview && !fileState.previewError ? (
+                        <img
+                          src={fileState.preview}
+                          alt=""
+                          className="w-full h-full object-cover"
+                          onError={() => {
+                            setFiles((prev) => {
+                              const next = new Map(prev)
+                              const s = next.get(fileState.file.id)
+                              if (s) next.set(fileState.file.id, { ...s, previewError: true })
+                              return next
+                            })
+                          }}
+                        />
+                      ) : (
+                        <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
+                        </svg>
+                      )}
+                    </div>
+                    {/* 文件名 + 大小 */}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-slate-900 truncate" title={fileState.file.name}>
+                        {fileState.file.name}
+                      </p>
+                      <p className="text-sm text-slate-500 mt-0.5">
+                        {formatSize(fileState.originalSize)}
+                        {fileState.converting && (
+                          <span className="ml-2 inline-flex items-center gap-1">
+                            <span className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-slate-400 border-t-transparent" />
+                            Converting…
+                          </span>
+                        )}
+                        {fileState.converted && (
+                          <span className="ml-2 text-green-600 font-medium">✓ Converted</span>
+                        )}
+                        {fileState.error && (
+                          <span className="ml-2 text-red-600 text-xs">✗ {fileState.error}</span>
+                        )}
+                      </p>
+                    </div>
+                    {/* 删除 */}
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleRemoveFile(fileState.file.id)
                       }}
-                      className="ml-1 hover:opacity-70"
+                      className="flex-shrink-0 p-2 rounded-lg text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
                     </button>
-                  </button>
+                  </div>
                 )
               })}
               <button
+                type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="px-3 py-2 rounded-lg text-sm font-medium bg-slate-200 text-slate-700 hover:bg-slate-300"
+                className="flex items-center gap-3 w-full p-3 rounded-xl border-2 border-dashed border-slate-300 text-slate-500 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
               >
-                + Add More
+                <div className="w-14 h-14 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
+                <span className="font-medium">+ Add More</span>
               </button>
             </div>
 
