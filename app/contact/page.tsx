@@ -9,7 +9,7 @@ const baseUrl = getBaseUrl()
 export const metadata: Metadata = {
   title: 'Contact Us - Image Converter',
   description:
-    'Get in touch with Image Converter. Have questions, feedback, or suggestions? We'd love to hear from you.',
+    "Get in touch with Image Converter. Have questions, feedback, or suggestions? We'd love to hear from you.",
   openGraph: {
     title: 'Contact Us - Image Converter',
     description: 'Get in touch with Image Converter team.',
