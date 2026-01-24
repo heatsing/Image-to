@@ -1,5 +1,7 @@
 # Image Converter - Next.js 项目
 
+**GitHub 仓库**: https://github.com/heatsing/Image-to
+
 ## 快速开始
 
 ### 方法 1：使用启动脚本（推荐）
@@ -97,3 +99,32 @@ tojpg/
 - React 18
 - TypeScript
 - Tailwind CSS
+
+---
+
+## 部署到生产环境
+
+### Vercel（推荐）
+
+1. 访问 [Vercel](https://vercel.com)
+2. 导入 GitHub 仓库 `heatsing/Image-to`
+3. Vercel 会自动检测 Next.js 并部署
+4. 几分钟后即可在线访问
+
+### GitHub Pages
+
+Next.js 需要服务端渲染，GitHub Pages 不支持。建议使用 Vercel 或 Netlify。
+
+### Netlify
+
+1. 访问 [Netlify](https://netlify.com)
+2. 连接 GitHub 仓库
+3. 构建命令：`npm run build`
+4. 发布目录：`.next`
+
+---
+
+## 项目链接
+
+- **GitHub**: https://github.com/heatsing/Image-to
+- **本地开发**: http://localhost:3002
