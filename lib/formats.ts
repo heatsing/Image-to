@@ -62,3 +62,30 @@ export function isValidFormatSlug(slug: string): slug is FormatSlug {
 export function getTargetLabel(target: TargetFormat): string {
   return target === 'jpg' ? 'JPG' : target.toUpperCase()
 }
+
+/** URL slug for converter page: e.g. mng-to-webp, cur-to-jpg */
+export function toConverterSlug(source: string, target: TargetFormat): string {
+  return `${source.toLowerCase()}-to-${target}`
+}
+
+/** Parse "mng-to-webp" -> { source: "mng", target: "webp" }. Returns null if invalid. */
+export function parseConverterSlug(
+  slug: string
+): { source: string; target: TargetFormat } | null {
+  const match = /^([a-z0-9]+)-to-(jpg|webp|png)$/i.exec(slug)
+  if (!match) return null
+  const [, source, target] = match
+  if (!isValidFormatSlug(source)) return null
+  return { source: source.toLowerCase(), target: target as TargetFormat }
+}
+
+/** All converter slugs for generateStaticParams */
+export const ALL_CONVERTER_SLUGS: string[] = (() => {
+  const out: string[] = []
+  for (const source of FORMAT_SLUGS) {
+    for (const target of ['jpg', 'webp', 'png'] as const) {
+      out.push(toConverterSlug(source, target))
+    }
+  }
+  return out
+})()

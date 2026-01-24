@@ -30,7 +30,11 @@ export default function Navigation() {
           </Link>
           <nav className="flex items-center gap-4">
             {navItems.map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'))
+              const isActive =
+                pathname === item.href ||
+                (item.href === '/to-jpg' && /^\/[a-z0-9]+-to-jpg$/.test(pathname)) ||
+                (item.href === '/to-webp' && /^\/[a-z0-9]+-to-webp$/.test(pathname)) ||
+                (item.href === '/to-png' && /^\/[a-z0-9]+-to-png$/.test(pathname))
               return (
                 <Link
                   key={item.href}

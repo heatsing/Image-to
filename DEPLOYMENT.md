@@ -74,7 +74,7 @@ vercel
 - JPG 转换器：`https://your-domain.vercel.app/to-jpg`
 - WebP 转换器：`https://your-domain.vercel.app/to-webp`
 - PNG 转换器：`https://your-domain.vercel.app/to-png`
-- 动态路由示例：`https://your-domain.vercel.app/to-jpg/webp`
+- 动态路由示例：`https://your-domain.vercel.app/mng-to-webp`、`https://your-domain.vercel.app/cur-to-jpg`
 
 ## GitHub Actions 自动部署
 
@@ -101,3 +101,14 @@ npm run start
 ```
 
 如果本地构建成功，部署通常也会成功。
+
+---
+
+## 一键推送并部署
+
+1. **在资源管理器中** 打开 `C:\Users\heats\Desktop\tojpg`
+2. **双击运行** `push-and-deploy.bat`
+3. 按提示完成（若有弹窗请登录 GitHub，密码用 Personal Access Token）
+4. 推送成功后，若已连接 Vercel，会自动触发部署
+
+**注意**：请在 **本机 CMD** 或 **双击 .bat** 运行，不要使用 Cursor 内置终端。
