@@ -26,7 +26,7 @@ export default function Navigation() {
   return (
     <header className="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative">
           <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,8 +39,8 @@ export default function Navigation() {
             </div>
           </Link>
           
-          {/* 桌面端导航 */}
-          <nav className="hidden md:flex items-center gap-4">
+          {/* 桌面端导航 - 居中 */}
+          <nav className="hidden md:flex items-center gap-4 absolute left-1/2 transform -translate-x-1/2">
             {navItems.map((item) => {
               const active = isActive(item.href)
               return (
@@ -76,6 +76,9 @@ export default function Navigation() {
               </svg>
             )}
           </button>
+          
+          {/* 桌面端占位，保持布局平衡 */}
+          <div className="hidden md:block w-[180px]"></div>
         </div>
 
         {/* 移动端导航菜单 */}
