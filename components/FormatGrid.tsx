@@ -21,8 +21,10 @@ export default function FormatGrid({ target }: FormatGridProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
       {FORMAT_SLUGS.map((source) => {
-        const from = slugToLabel(source)
-        const href = `/${toConverterSlug(source, target)}`
+        // 如果源格式和目标格式相同，使用 jpg 作为源格式
+        const displaySource = source === target ? 'jpg' : source
+        const from = slugToLabel(displaySource)
+        const href = `/${toConverterSlug(displaySource, target)}`
         return (
           <Link
             key={source}
