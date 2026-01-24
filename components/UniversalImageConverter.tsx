@@ -4,6 +4,20 @@ import { useState, useCallback, useRef, useEffect, DragEvent } from 'react'
 
 interface FileWithPreview extends File {
   preview?: string
+  id: string
+}
+
+interface FileConversionState {
+  file: FileWithPreview
+  preview: string | null
+  previewError: boolean
+  converting: boolean
+  converted: boolean
+  downloadUrl: string | null
+  error: string | null
+  originalSize: number
+  convertedSize: number
+  objectUrl: string | null
 }
 
 type OutputFormat = 'jpg' | 'webp' | 'png'
@@ -15,25 +29,12 @@ interface UniversalImageConverterProps {
 }
 
 export default function UniversalImageConverter({ outputFormat, title, description }: UniversalImageConverterProps) {
-  const [file, setFile] = useState<FileWithPreview | null>(null)
-  const [preview, setPreview] = useState<string | null>(null)
-  const [previewError, setPreviewError] = useState(false)
-  const [converting, setConverting] = useState(false)
-  const [converted, setConverted] = useState(false)
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [originalSize, setOriginalSize] = useState<number>(0)
-  const [convertedSize, setConvertedSize] = useState<number>(0)
+  const [files, setFiles] = useState<Map<string, FileConversionState>>(new Map())
+  const [selectedFileId, setSelectedFileId] = useState<string | null>(null)
+  const [globalError, setGlobalError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const dragCounter = useRef(0)
-  const objectUrlRef = useRef<string | null>(null)
-
-  const revokePreviewUrl = useCallback(() => {
-    if (objectUrlRef.current) {
-      URL.revokeObjectURL(objectUrlRef.current)
-      objectUrlRef.current = null
-    }
-  }, [])
+  const downloadUrlsRef = useRef<Set<string>>(new Set())
 
   const formatSize = useCallback((bytes: number) => {
     return bytes >= 1024 * 1024
@@ -152,55 +153,80 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
     return imageTypes.some((t) => type.startsWith(t)) || imageExts.some((ext) => name.endsWith(ext))
   }, [])
 
-  const handleFileSelect = useCallback(
-    (selectedFile: File) => {
-      if (!isImageFile(selectedFile)) {
-        setError(
-          `"${selectedFile.name}" is not a supported image format. Supported: WebP, PNG, JPEG, SVG, BMP, AVIF, HEIC, TIFF, GIF, ICO, PSD, TGA, and 30+ more formats.`
-        )
-        return
-      }
-
-      if (selectedFile.size > 10 * 1024 * 1024) {
-        setError(`"${selectedFile.name}" exceeds 10MB limit`)
-        return
-      }
-
-      setError(null)
-      setConverted(false)
-      setDownloadUrl(null)
-      setPreviewError(false)
-      revokePreviewUrl()
-
-      const fileWithPreview = selectedFile as FileWithPreview
-      setFile(fileWithPreview)
-      setOriginalSize(selectedFile.size)
-
-      const tryObjectUrl = () => {
-        try {
-          const url = URL.createObjectURL(selectedFile)
-          objectUrlRef.current = url
-          setPreview(url)
-        } catch {
-          tryDataUrl()
-        }
-      }
-
-      const tryDataUrl = () => {
+  const createPreview = useCallback(async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const url = URL.createObjectURL(file)
+        resolve(url)
+      } catch {
         const reader = new FileReader()
         reader.onload = (e) => {
           const result = e.target?.result as string
-          if (result) {
-            setPreview(result)
-          } else setError('Image read failed, please try again')
+          if (result) resolve(result)
+          else reject(new Error('Failed to read file'))
         }
-        reader.onerror = () => setError('Image read failed, please try again')
-        reader.readAsDataURL(selectedFile)
+        reader.onerror = () => reject(new Error('Failed to read file'))
+        reader.readAsDataURL(file)
+      }
+    })
+  }, [])
+
+  const handleFilesAdd = useCallback(
+    async (fileList: FileList | File[]) => {
+      const filesArray = Array.from(fileList)
+      const newFiles = new Map(files)
+      const errors: string[] = []
+
+      for (const file of filesArray) {
+        if (!isImageFile(file)) {
+          errors.push(`"${file.name}" is not a supported image format`)
+          continue
+        }
+
+        if (file.size > 10 * 1024 * 1024) {
+          errors.push(`"${file.name}" exceeds 10MB limit`)
+          continue
+        }
+
+        const id = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        const fileWithId = Object.assign(file, { id }) as FileWithPreview
+
+        try {
+          const preview = await createPreview(file)
+          const objectUrl = preview.startsWith('blob:') ? preview : null
+
+          newFiles.set(id, {
+            file: fileWithId,
+            preview,
+            previewError: false,
+            converting: false,
+            converted: false,
+            downloadUrl: null,
+            error: null,
+            originalSize: file.size,
+            convertedSize: 0,
+            objectUrl,
+          })
+
+          if (objectUrl) {
+            downloadUrlsRef.current.add(objectUrl)
+          }
+        } catch (err) {
+          errors.push(`Failed to load "${file.name}"`)
+        }
       }
 
-      tryObjectUrl()
+      setFiles(newFiles)
+      if (newFiles.size > 0 && !selectedFileId) {
+        setSelectedFileId(Array.from(newFiles.keys())[0])
+      }
+      if (errors.length > 0) {
+        setGlobalError(errors.join('; '))
+      } else {
+        setGlobalError(null)
+      }
     },
-    [isImageFile, revokePreviewUrl]
+    [files, isImageFile, createPreview, selectedFileId]
   )
 
   const handleDragEnter = useCallback((e: DragEvent<HTMLDivElement>) => {
@@ -234,125 +260,210 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
       e.currentTarget.classList.remove('border-blue-500', 'bg-blue-50')
 
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        handleFileSelect(e.dataTransfer.files[0])
+        handleFilesAdd(e.dataTransfer.files)
       }
     },
-    [handleFileSelect]
+    [handleFilesAdd]
   )
 
   const handleFileInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
-        handleFileSelect(e.target.files[0])
+        handleFilesAdd(e.target.files)
       }
     },
-    [handleFileSelect]
+    [handleFilesAdd]
   )
 
-  const handleConvert = useCallback(async () => {
-    if (!file || !preview) return
+  const convertFile = useCallback(
+    async (fileId: string): Promise<void> => {
+      const fileState = files.get(fileId)
+      if (!fileState || !fileState.preview) return
 
-    setConverting(true)
-    setError(null)
-
-    try {
-      const img = new Image()
-      img.crossOrigin = 'anonymous'
-      img.src = preview
-
-      await new Promise((resolve, reject) => {
-        const timeout = setTimeout(() => reject(new Error('Image load timeout')), 30000)
-        img.onload = () => {
-          clearTimeout(timeout)
-          resolve(null)
+      setFiles((prev) => {
+        const next = new Map(prev)
+        const state = next.get(fileId)
+        if (state) {
+          next.set(fileId, { ...state, converting: true, error: null })
         }
-        img.onerror = () => {
-          clearTimeout(timeout)
-          reject(new Error('Failed to load image. Some formats (like HEIC) may require server-side conversion.'))
-        }
+        return next
       })
 
-      const canvas = document.createElement('canvas')
-      canvas.width = img.naturalWidth || img.width
-      canvas.height = img.naturalHeight || img.height
+      try {
+        const img = new Image()
+        img.crossOrigin = 'anonymous'
+        img.src = fileState.preview!
 
-      if (canvas.width === 0 || canvas.height === 0) {
-        throw new Error('Invalid image dimensions')
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => reject(new Error('Image load timeout')), 30000)
+          img.onload = () => {
+            clearTimeout(timeout)
+            resolve(null)
+          }
+          img.onerror = () => {
+            clearTimeout(timeout)
+            reject(new Error('Failed to load image'))
+          }
+        })
+
+        const canvas = document.createElement('canvas')
+        canvas.width = img.naturalWidth || img.width
+        canvas.height = img.naturalHeight || img.height
+
+        if (canvas.width === 0 || canvas.height === 0) {
+          throw new Error('Invalid image dimensions')
+        }
+
+        const ctx = canvas.getContext('2d')
+        if (!ctx) {
+          throw new Error('Failed to get canvas context')
+        }
+
+        if (fileState.file.type === 'image/svg+xml' || fileState.file.name.toLowerCase().endsWith('.svg')) {
+          ctx.fillStyle = 'white'
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+        }
+
+        ctx.drawImage(img, 0, 0)
+
+        const mimeType = outputFormat === 'jpg' ? 'image/jpeg' : `image/${outputFormat}`
+        const quality = outputFormat === 'png' ? 1.0 : outputFormat === 'webp' ? 0.9 : 0.92
+
+        const blob = await new Promise<Blob>((resolve, reject) => {
+          canvas.toBlob(
+            (b) => {
+              if (b) resolve(b)
+              else reject(new Error(`Failed to convert to ${outputFormat.toUpperCase()}`))
+            },
+            mimeType,
+            quality
+          )
+        })
+
+        const url = URL.createObjectURL(blob)
+        downloadUrlsRef.current.add(url)
+
+        setFiles((prev) => {
+          const next = new Map(prev)
+          const state = next.get(fileId)
+          if (state) {
+            next.set(fileId, {
+              ...state,
+              converting: false,
+              converted: true,
+              downloadUrl: url,
+              convertedSize: blob.size,
+            })
+          }
+          return next
+        })
+      } catch (err) {
+        const errorMsg = err && err instanceof Error ? err.message : 'Conversion failed'
+        setFiles((prev) => {
+          const next = new Map(prev)
+          const state = next.get(fileId)
+          if (state) {
+            next.set(fileId, { ...state, converting: false, error: errorMsg })
+          }
+          return next
+        })
       }
+    },
+    [files, outputFormat]
+  )
 
-      const ctx = canvas.getContext('2d')
-      if (!ctx) {
-        throw new Error('Failed to get canvas context')
+  const handleConvertAll = useCallback(async () => {
+    const fileIds = Array.from(files.keys())
+    for (const id of fileIds) {
+      await convertFile(id)
+    }
+  }, [files, convertFile])
+
+  const handleConvert = useCallback(() => {
+    if (selectedFileId) {
+      convertFile(selectedFileId)
+    }
+  }, [selectedFileId, convertFile])
+
+  const handleDownload = useCallback(
+    (fileId: string) => {
+      const fileState = files.get(fileId)
+      if (fileState?.downloadUrl && fileState.file) {
+        const a = document.createElement('a')
+        a.href = fileState.downloadUrl
+        a.download = (fileState.file.name.replace(/\.[^/.]+$/, '') || 'converted') + `.${outputFormat}`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
       }
+    },
+    [files, outputFormat]
+  )
 
-      // Fill white background for SVG
-      if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
-        ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
+  const handleDownloadAll = useCallback(() => {
+    files.forEach((state, id) => {
+      if (state.converted && state.downloadUrl) {
+        setTimeout(() => handleDownload(id), 100)
       }
+    })
+  }, [files, handleDownload])
 
-      ctx.drawImage(img, 0, 0)
-
-      const mimeType = outputFormat === 'jpg' ? 'image/jpeg' : `image/${outputFormat}`
-      const quality = outputFormat === 'png' ? 1.0 : outputFormat === 'webp' ? 0.9 : 0.92
-
-      await new Promise<void>((resolve, reject) => {
-        canvas.toBlob(
-          (blob) => {
-            if (blob) {
-              const url = URL.createObjectURL(blob)
-              setDownloadUrl(url)
-              setConvertedSize(blob.size)
-              setConverted(true)
-              resolve()
-            } else {
-              reject(new Error(`Failed to convert to ${outputFormat.toUpperCase()}. The image format may not be supported.`))
-            }
-          },
-          mimeType,
-          quality
-        )
+  const handleRemoveFile = useCallback(
+    (fileId: string) => {
+      setFiles((prev) => {
+        const next = new Map(prev)
+        const state = next.get(fileId)
+        if (state) {
+          if (state.objectUrl) {
+            URL.revokeObjectURL(state.objectUrl)
+            downloadUrlsRef.current.delete(state.objectUrl)
+          }
+          if (state.downloadUrl) {
+            URL.revokeObjectURL(state.downloadUrl)
+            downloadUrlsRef.current.delete(state.downloadUrl)
+          }
+        }
+        next.delete(fileId)
+        return next
       })
-    } catch (err) {
-      const errorMsg = err && err instanceof Error ? err.message : 'Please try again'
-      setError('Conversion failed: ' + errorMsg)
-    } finally {
-      setConverting(false)
-    }
-  }, [file, preview, outputFormat])
-
-  const handleDownload = useCallback(() => {
-    if (downloadUrl && file) {
-      const a = document.createElement('a')
-      a.href = downloadUrl
-      a.download = (file.name.replace(/\.[^/.]+$/, '') || 'converted') + `.${outputFormat}`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-    }
-  }, [downloadUrl, file, outputFormat])
+      if (selectedFileId === fileId) {
+        const remaining = Array.from(files.keys()).filter((id) => id !== fileId)
+        setSelectedFileId(remaining.length > 0 ? remaining[0] : null)
+      }
+    },
+    [files, selectedFileId]
+  )
 
   const handleReset = useCallback(() => {
-    setFile(null)
-    setPreview(null)
-    setPreviewError(false)
-    setConverted(false)
-    setDownloadUrl(null)
-    setError(null)
-    setOriginalSize(0)
-    setConvertedSize(0)
+    files.forEach((state) => {
+      if (state.objectUrl) {
+        URL.revokeObjectURL(state.objectUrl)
+        downloadUrlsRef.current.delete(state.objectUrl)
+      }
+      if (state.downloadUrl) {
+        URL.revokeObjectURL(state.downloadUrl)
+        downloadUrlsRef.current.delete(state.downloadUrl)
+      }
+    })
+    setFiles(new Map())
+    setSelectedFileId(null)
+    setGlobalError(null)
     if (fileInputRef.current) fileInputRef.current.value = ''
-    if (downloadUrl) URL.revokeObjectURL(downloadUrl)
-    revokePreviewUrl()
-  }, [downloadUrl, revokePreviewUrl])
+  }, [files])
 
-  const openPreviewInNewTab = useCallback(() => {
-    if (preview) window.open(preview, '_blank', 'noopener,noreferrer')
-  }, [preview])
-
-  useEffect(() => () => revokePreviewUrl(), [revokePreviewUrl])
+  useEffect(() => {
+    return () => {
+      downloadUrlsRef.current.forEach((url) => URL.revokeObjectURL(url))
+      downloadUrlsRef.current.clear()
+    }
+  }, [])
 
   const formatName = outputFormat.toUpperCase()
+  const filesArray = Array.from(files.values())
+  const selectedFile = selectedFileId ? files.get(selectedFileId) : null
+  const allConverted = filesArray.length > 0 && filesArray.every((f) => f.converted)
+  const anyConverting = filesArray.some((f) => f.converting)
+  const convertedCount = filesArray.filter((f) => f.converted).length
 
   return (
     <div className="w-full">
@@ -363,7 +474,7 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        {!preview ? (
+        {files.size === 0 ? (
           <div className="text-center">
             <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
               <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -376,7 +487,7 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
               </svg>
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">Drag and drop images</h3>
-            <p className="text-slate-600 mb-6">or click the button below to select files</p>
+            <p className="text-slate-600 mb-6">or click the button below to select files (multiple files supported)</p>
             <button
               onClick={() => fileInputRef.current?.click()}
               className="btn-primary px-6 py-3 text-white rounded-lg font-semibold"
@@ -388,6 +499,7 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
               type="file"
               accept="image/*,.heic,.heif,.webp,.avif,.bmp,.tiff,.tif,.ico,.svg,.jfif,.cur,.dds,.fts,.hdr,.mng,.pam,.pbm,.pcd,.pcx,.pfm,.pgm,.picon,.pict,.pnm,.ppm,.psd,.ras,.rw2,.sgi,.tga,.wbmp,.xbm,.xpm"
               onChange={handleFileInputChange}
+              multiple
               className="hidden"
             />
             <p className="text-xs text-slate-500 mt-4">
@@ -399,126 +511,234 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
           </div>
         ) : (
           <div className="w-full space-y-4">
-            {/* File Info */}
-            <div className="flex items-center justify-between p-4 bg-slate-100 rounded-lg">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-medium text-slate-900 truncate max-w-[200px]" title={file?.name}>
-                    {file?.name}
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    {formatSize(originalSize)}
-                    <span className="ml-2 px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium">
-                      {getFileFormat(file!)} → {formatName}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Preview */}
-            <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-lg font-semibold text-slate-900">Preview</span>
+            {/* File List */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {filesArray.map((fileState) => {
+                const isSelected = selectedFileId === fileState.file.id
+                return (
+                  <button
+                    key={fileState.file.id}
+                    onClick={() => setSelectedFileId(fileState.file.id)}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                      isSelected
+                        ? 'bg-blue-500 text-white'
+                        : fileState.converted
+                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                          : fileState.error
+                            ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                          : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    }`}
+                  >
+                    <span className="truncate max-w-[120px]">{fileState.file.name}</span>
+                    {fileState.converted && <span className="text-xs">✓</span>}
+                    {fileState.converting && (
+                      <span className="animate-spin rounded-full h-3 w-3 border-2 border-current border-t-transparent"></span>
+                    )}
+                    {fileState.error && <span className="text-xs">✗</span>}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleRemoveFile(fileState.file.id)
+                      }}
+                      className="ml-1 hover:opacity-70"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </button>
+                )
+              })}
               <button
-                type="button"
-                onClick={openPreviewInNewTab}
-                className="text-sm text-blue-600 hover:underline"
+                onClick={() => fileInputRef.current?.click()}
+                className="px-3 py-2 rounded-lg text-sm font-medium bg-slate-200 text-slate-700 hover:bg-slate-300"
               >
-                Open in New Tab
+                + Add More
               </button>
             </div>
-            <div className="rounded-xl bg-slate-100 p-6 min-h-[260px] flex items-center justify-center">
-              {preview && !previewError ? (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="max-w-full max-h-[400px] object-contain rounded-lg shadow-lg"
-                  onError={() => setPreviewError(true)}
-                />
-              ) : (
-                <p className="text-slate-500 text-sm">Preview not supported. Please convert directly or open in a new tab.</p>
-              )}
-            </div>
 
-            {/* Error Message */}
-            {error && (
+            {/* Global Error */}
+            {globalError && (
               <div className="rounded-lg p-3 text-sm bg-red-50 text-red-600 border border-red-200">
-                {error}
+                {globalError}
               </div>
             )}
 
-            {/* Size Comparison */}
-            {converted && convertedSize > 0 && (
-              <div className="flex items-center justify-center gap-4 p-3 bg-blue-50 rounded-lg">
-                <span className="text-sm text-slate-600">
-                  <span className="font-semibold">{getFileFormat(file!)}</span> <span className="text-slate-500">{formatSize(originalSize)}</span>
-                </span>
-                <span className="text-slate-400">→</span>
-                <span className="text-sm text-slate-600">
-                  <span className="font-semibold text-green-600">{formatName}</span>{' '}
-                  <span className="text-green-600">{formatSize(convertedSize)}</span>
-                </span>
-                {originalSize > convertedSize && (
-                  <span className="text-xs text-green-600 font-semibold">
-                    Saved {formatSize(originalSize - convertedSize)}
-                  </span>
-                )}
-              </div>
-            )}
-
-            {/* Actions */}
-            <div className="flex flex-wrap gap-3 pt-2 border-t border-slate-200">
-              {!converted ? (
-                <button
-                  type="button"
-                  onClick={handleConvert}
-                  disabled={converting}
-                  className="btn-primary px-6 py-3 text-white rounded-lg font-semibold flex items-center gap-2 disabled:opacity-50"
-                >
-                  {converting ? (
-                    <>
-                      <span className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></span>
-                      Converting...
-                    </>
-                  ) : (
-                    <>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            {/* Selected File Preview */}
+            {selectedFile && (
+              <>
+                <div className="flex items-center justify-between p-4 bg-slate-100 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
                       </svg>
-                      Convert to {formatName}
-                    </>
+                    </div>
+                    <div>
+                      <p className="font-medium text-slate-900 truncate max-w-[200px]" title={selectedFile.file.name}>
+                        {selectedFile.file.name}
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        {formatSize(selectedFile.originalSize)}
+                        <span className="ml-2 px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                          {getFileFormat(selectedFile.file)} → {formatName}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-lg font-semibold text-slate-900">Preview</span>
+                  <button
+                    type="button"
+                    onClick={() => selectedFile.preview && window.open(selectedFile.preview, '_blank', 'noopener,noreferrer')}
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    Open in New Tab
+                  </button>
+                </div>
+                <div className="rounded-xl bg-slate-100 p-6 min-h-[260px] flex items-center justify-center">
+                  {selectedFile.preview && !selectedFile.previewError ? (
+                    <img
+                      src={selectedFile.preview}
+                      alt="Preview"
+                      className="max-w-full max-h-[400px] object-contain rounded-lg shadow-lg"
+                      onError={() => {
+                        setFiles((prev) => {
+                          const next = new Map(prev)
+                          const state = next.get(selectedFile.file.id)
+                          if (state) {
+                            next.set(selectedFile.file.id, { ...state, previewError: true })
+                          }
+                          return next
+                        })
+                      }}
+                    />
+                  ) : (
+                    <p className="text-slate-500 text-sm">Preview not supported. Please convert directly or open in a new tab.</p>
                   )}
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleDownload}
-                  className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                  Download {formatName}
-                </button>
+                </div>
+
+                {selectedFile.error && (
+                  <div className="rounded-lg p-3 text-sm bg-red-50 text-red-600 border border-red-200">
+                    {selectedFile.error}
+                  </div>
+                )}
+
+                {selectedFile.converted && selectedFile.convertedSize > 0 && (
+                  <div className="flex items-center justify-center gap-4 p-3 bg-blue-50 rounded-lg">
+                    <span className="text-sm text-slate-600">
+                      <span className="font-semibold">{getFileFormat(selectedFile.file)}</span>{' '}
+                      <span className="text-slate-500">{formatSize(selectedFile.originalSize)}</span>
+                    </span>
+                    <span className="text-slate-400">→</span>
+                    <span className="text-sm text-slate-600">
+                      <span className="font-semibold text-green-600">{formatName}</span>{' '}
+                      <span className="text-green-600">{formatSize(selectedFile.convertedSize)}</span>
+                    </span>
+                    {selectedFile.originalSize > selectedFile.convertedSize && (
+                      <span className="text-xs text-green-600 font-semibold">
+                        Saved {formatSize(selectedFile.originalSize - selectedFile.convertedSize)}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Batch Actions */}
+            <div className="flex flex-wrap gap-3 pt-2 border-t border-slate-200">
+              {files.size > 1 && (
+                <>
+                  {!allConverted ? (
+                    <button
+                      type="button"
+                      onClick={handleConvertAll}
+                      disabled={anyConverting}
+                      className="btn-primary px-6 py-3 text-white rounded-lg font-semibold flex items-center gap-2 disabled:opacity-50"
+                    >
+                      {anyConverting ? (
+                        <>
+                          <span className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></span>
+                          Converting... ({convertedCount}/{files.size})
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                          Convert All ({files.size} files)
+                        </>
+                      )}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleDownloadAll}
+                      className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold flex items-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download All ({files.size} files)
+                    </button>
+                  )}
+                </>
               )}
+
+              {/* Single File Actions */}
+              {selectedFile && (
+                <>
+                  {!selectedFile.converted ? (
+                    <button
+                      type="button"
+                      onClick={handleConvert}
+                      disabled={selectedFile.converting}
+                      className="btn-primary px-6 py-3 text-white rounded-lg font-semibold flex items-center gap-2 disabled:opacity-50"
+                    >
+                      {selectedFile.converting ? (
+                        <>
+                          <span className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></span>
+                          Converting...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                          Convert to {formatName}
+                        </>
+                      )}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleDownload(selectedFile.file.id)}
+                      className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold flex items-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download {formatName}
+                    </button>
+                  )}
+                </>
+              )}
+
               <button
                 type="button"
                 onClick={handleReset}
                 className="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg font-semibold"
               >
-                Choose Another
+                Clear All
               </button>
             </div>
 
             {/* Success Message */}
-            {converted && (
+            {allConverted && files.size > 0 && (
               <div className="bg-green-50 text-green-600 border border-green-200 rounded-lg p-3 text-sm">
-                Conversion successful! Click &quot;Download {formatName}&quot; to save
+                All {files.size} files converted successfully! Click &quot;Download All&quot; to save them.
               </div>
             )}
           </div>
