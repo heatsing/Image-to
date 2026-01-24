@@ -1,5 +1,6 @@
 import Navigation from '@/components/Navigation'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
+import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -27,52 +28,13 @@ export default function ToPNGPage() {
           />
         </div>
 
-        {/* Supported Formats Section */}
         <section className="mt-8 mb-8">
           <div className="max-w-4xl mx-auto">
             <h3 className="text-lg font-semibold text-slate-800 mb-4">Supported Formats</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">WebP to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PNG to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">JPEG to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">JFIF to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">SVG to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">BMP to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">AVIF to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">HEIC to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">TIFF to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">CUR to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">DDS to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">FTS to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">GIF to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">HDR to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">ICO to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">JPE to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">JPS to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">MNG to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PAM to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PBM to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PCD to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PCX to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PFM to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PGM to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PICON to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PICT to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PNM to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PPM to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">PSD to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">RAS to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">RW2 to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">SGI to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">TGA to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">WBMP to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">XBM to PNG</div>
-              <div className="px-3 py-2.5 bg-gray-100 border border-gray-200 rounded-lg text-center text-sm text-gray-700 font-medium shadow-sm hover:bg-gray-50 transition-colors">XPM to PNG</div>
-            </div>
+            <FormatGrid target="png" />
           </div>
         </section>
 
-        {/* Features Section */}
         <section className="mt-12 mb-8">
           <div className="grid md:grid-cols-3 gap-4">
             <div className="card rounded-xl p-4 text-center">

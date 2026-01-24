@@ -1,30 +1,49 @@
 import Navigation from '@/components/Navigation'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
+import { FORMAT_SLUGS, slugToLabel, isValidFormatSlug } from '@/lib/formats'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
-export const metadata: Metadata = {
-  title: 'Image to WebP Converter - Free Online Tool',
-  description: '100% free online tool. Convert images to WebP locally—no uploads, no signup. Your files never leave your device.',
+type Props = { params: Promise<{ source: string }> }
+
+export async function generateStaticParams() {
+  return FORMAT_SLUGS.map((source) => ({ source }))
 }
 
-export default function ToWebPPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { source } = await params
+  if (!isValidFormatSlug(source)) return { title: 'Not Found' }
+  const from = slugToLabel(source)
+  const title = `${from} to WebP Converter - Free Online Tool`
+  const description = `100% free. Convert ${from} to WebP locally—no uploads, no signup. Your files never leave your device.`
+  return { title, description }
+}
+
+export default async function ToWebPSourcePage({ params }: Props) {
+  const { source } = await params
+  if (!isValidFormatSlug(source)) notFound()
+
+  const from = slugToLabel(source)
+  const title = `${from} to WebP Converter`
+  const desc = `100% free. Convert ${from} to WebP locally—no uploads, no signup. Your files never leave your device.`
+
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
       <Navigation />
       <main className="container mx-auto px-4 py-8 max-w-4xl flex-1">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">Image to WebP Converter</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">{title}</h2>
           <p className="text-slate-600 mb-3">
-            100% free. Convert images to WebP <strong>locally</strong>—no uploads, no signup. Your files never leave your device.
+            100% free. Convert {from} to WebP <strong>locally</strong>—no uploads, no signup. Your files never leave your device.
           </p>
         </div>
 
         <div className="card rounded-2xl p-6 md:p-8">
           <UniversalImageConverter
             outputFormat="webp"
-            title="Image to WebP Converter"
-            description="100% free. Convert images to WebP locally—no uploads, no signup."
+            title={title}
+            description={desc}
           />
         </div>
 
