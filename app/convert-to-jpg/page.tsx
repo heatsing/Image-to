@@ -1,5 +1,7 @@
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import FAQ from '@/components/FAQ'
+import BenefitsSection from '@/components/BenefitsSection'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
@@ -60,25 +62,8 @@ export default function ToJPGPage() {
           </div>
         </section>
 
-        <section className="mt-12 mb-8">
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="card rounded-xl p-4 text-center">
-              <div className="text-2xl mb-2">🔒</div>
-              <h4 className="font-semibold text-slate-900 mb-1">Local conversion</h4>
-              <p className="text-xs text-slate-600">Conversion runs on your device only. Files never leave your computer—no uploads, no servers.</p>
-            </div>
-            <div className="card rounded-xl p-4 text-center">
-              <div className="text-2xl mb-2">⚡</div>
-              <h4 className="font-semibold text-slate-900 mb-1">Super Fast</h4>
-              <p className="text-xs text-slate-600">Each file costs about 1 second for conversion. Batch process hundreds of images at once.</p>
-            </div>
-            <div className="card rounded-xl p-4 text-center">
-              <div className="text-2xl mb-2">🎯</div>
-              <h4 className="font-semibold text-slate-900 mb-1">Fully Functional</h4>
-              <p className="text-xs text-slate-600">Handles all jobs involved with image to JPG conversion. From any format to JPG.</p>
-            </div>
-          </div>
-        </section>
+        <BenefitsSection title="Why Use Our JPG Converter?" subtitle="Simple, fast, and secure image conversion—right in your browser." />
+        <FAQ />
       </main>
 
       <Footer />

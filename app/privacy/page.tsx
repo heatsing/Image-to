@@ -1,5 +1,7 @@
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import FAQ from '@/components/FAQ'
+import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getBaseUrl } from '@/lib/seo'
@@ -149,6 +151,9 @@ export default function PrivacyPage() {
             </p>
           </section>
         </div>
+
+        <BenefitsSection title="Why Choose Image Converter?" subtitle="100% local processing, no data collection—your privacy comes first." />
+        <FAQ />
       </main>
       <Footer />
     </div>

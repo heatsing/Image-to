@@ -17,7 +17,7 @@ git status
 
 echo.
 echo 3. 提交...
-git commit -m "Fix: add missing Footer import in convert-to-png page" 2>nul
+git commit -m "Add FAQ + BenefitsSection to all pages; simplified diagram SVGs for benefits" 2>nul
 if errorlevel 1 (
     echo 无新提交或已提交，继续推送...
 ) else (

@@ -1,5 +1,7 @@
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import FAQ from '@/components/FAQ'
+import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getBaseUrl } from '@/lib/seo'
@@ -110,6 +112,9 @@ export default function ContactPage() {
             </p>
           </section>
         </div>
+
+        <BenefitsSection title="Why Choose Image Converter?" subtitle="Free, local, and secure—image conversion the way it should be." />
+        <FAQ />
       </main>
       <Footer />
     </div>
