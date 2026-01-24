@@ -22,7 +22,7 @@ export default function Home() {
         {/* Converter Options */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           <Link
-            href="/to-jpg"
+            href="/convert-to-jpg"
             className="card rounded-2xl p-8 hover:shadow-lg transition-all hover:scale-105 text-center group"
           >
             <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -43,7 +43,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/to-webp"
+            href="/convert-to-webp"
             className="card rounded-2xl p-8 hover:shadow-lg transition-all hover:scale-105 text-center group"
           >
             <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -64,7 +64,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/to-png"
+            href="/convert-to-png"
             className="card rounded-2xl p-8 hover:shadow-lg transition-all hover:scale-105 text-center group"
           >
             <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">

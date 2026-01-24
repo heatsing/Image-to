@@ -9,17 +9,17 @@ export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
-    { href: '/to-jpg', label: 'Images to JPG' },
-    { href: '/to-webp', label: 'Images to WebP' },
-    { href: '/to-png', label: 'Images to PNG' },
+    { href: '/convert-to-jpg', label: 'Images to JPG' },
+    { href: '/convert-to-webp', label: 'Images to WebP' },
+    { href: '/convert-to-png', label: 'Images to PNG' },
   ]
 
   const isActive = (href: string) => {
     return (
       pathname === href ||
-      (href === '/to-jpg' && /^\/[a-z0-9]+-to-jpg$/.test(pathname)) ||
-      (href === '/to-webp' && /^\/[a-z0-9]+-to-webp$/.test(pathname)) ||
-      (href === '/to-png' && /^\/[a-z0-9]+-to-png$/.test(pathname))
+      (href === '/convert-to-jpg' && /^\/[a-z0-9]+-to-jpg$/.test(pathname)) ||
+      (href === '/convert-to-webp' && /^\/[a-z0-9]+-to-webp$/.test(pathname)) ||
+      (href === '/convert-to-png' && /^\/[a-z0-9]+-to-png$/.test(pathname))
     )
   }
 

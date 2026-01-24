@@ -553,7 +553,20 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
                         {fileState.file.name}
                       </p>
                       <p className="text-sm text-slate-500 mt-0.5">
-                        {formatSize(fileState.originalSize)}
+                        {fileState.converted && fileState.convertedSize > 0 ? (
+                          <>
+                            <span>{formatSize(fileState.originalSize)}</span>
+                            <span className="mx-1.5 text-slate-400">→</span>
+                            <span className="text-green-600 font-medium">{formatSize(fileState.convertedSize)}</span>
+                            {fileState.originalSize > fileState.convertedSize && (
+                              <span className="ml-1.5 text-xs text-green-600">
+                                (Saved {formatSize(fileState.originalSize - fileState.convertedSize)})
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          formatSize(fileState.originalSize)
+                        )}
                         {fileState.converting && (
                           <span className="ml-2 inline-flex items-center gap-1">
                             <span className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-slate-400 border-t-transparent" />
@@ -603,89 +616,6 @@ export default function UniversalImageConverter({ outputFormat, title, descripti
               <div className="rounded-lg p-3 text-sm bg-red-50 text-red-600 border border-red-200">
                 {globalError}
               </div>
-            )}
-
-            {/* Selected File Preview */}
-            {selectedFile && (
-              <>
-                <div className="flex items-center justify-between p-4 bg-slate-100 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium text-slate-900 truncate max-w-[200px]" title={selectedFile.file.name}>
-                        {selectedFile.file.name}
-                      </p>
-                      <p className="text-sm text-slate-500">
-                        {formatSize(selectedFile.originalSize)}
-                        <span className="ml-2 px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium">
-                          {getFileFormat(selectedFile.file)} → {formatName}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-lg font-semibold text-slate-900">Preview</span>
-                  <button
-                    type="button"
-                    onClick={() => selectedFile.preview && window.open(selectedFile.preview, '_blank', 'noopener,noreferrer')}
-                    className="text-sm text-blue-600 hover:underline"
-                  >
-                    Open in New Tab
-                  </button>
-                </div>
-                <div className="rounded-xl bg-slate-100 p-6 min-h-[260px] flex items-center justify-center">
-                  {selectedFile.preview && !selectedFile.previewError ? (
-                    <img
-                      src={selectedFile.preview}
-                      alt="Preview"
-                      className="max-w-full max-h-[400px] object-contain rounded-lg shadow-lg"
-                      onError={() => {
-                        setFiles((prev) => {
-                          const next = new Map(prev)
-                          const state = next.get(selectedFile.file.id)
-                          if (state) {
-                            next.set(selectedFile.file.id, { ...state, previewError: true })
-                          }
-                          return next
-                        })
-                      }}
-                    />
-                  ) : (
-                    <p className="text-slate-500 text-sm">Preview not supported. Please convert directly or open in a new tab.</p>
-                  )}
-                </div>
-
-                {selectedFile.error && (
-                  <div className="rounded-lg p-3 text-sm bg-red-50 text-red-600 border border-red-200">
-                    {selectedFile.error}
-                  </div>
-                )}
-
-                {selectedFile.converted && selectedFile.convertedSize > 0 && (
-                  <div className="flex items-center justify-center gap-4 p-3 bg-blue-50 rounded-lg">
-                    <span className="text-sm text-slate-600">
-                      <span className="font-semibold">{getFileFormat(selectedFile.file)}</span>{' '}
-                      <span className="text-slate-500">{formatSize(selectedFile.originalSize)}</span>
-                    </span>
-                    <span className="text-slate-400">→</span>
-                    <span className="text-sm text-slate-600">
-                      <span className="font-semibold text-green-600">{formatName}</span>{' '}
-                      <span className="text-green-600">{formatSize(selectedFile.convertedSize)}</span>
-                    </span>
-                    {selectedFile.originalSize > selectedFile.convertedSize && (
-                      <span className="text-xs text-green-600 font-semibold">
-                        Saved {formatSize(selectedFile.originalSize - selectedFile.convertedSize)}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </>
             )}
 
             {/* Batch Actions */}
