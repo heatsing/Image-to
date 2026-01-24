@@ -1,16 +1,27 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export default function Navigation() {
   const pathname = usePathname()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
     { href: '/to-jpg', label: 'Images to JPG' },
     { href: '/to-webp', label: 'Images to WebP' },
     { href: '/to-png', label: 'Images to PNG' },
   ]
+
+  const isActive = (href: string) => {
+    return (
+      pathname === href ||
+      (href === '/to-jpg' && /^\/[a-z0-9]+-to-jpg$/.test(pathname)) ||
+      (href === '/to-webp' && /^\/[a-z0-9]+-to-webp$/.test(pathname)) ||
+      (href === '/to-png' && /^\/[a-z0-9]+-to-png$/.test(pathname))
+    )
+  }
 
   return (
     <header className="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
@@ -27,19 +38,17 @@ export default function Navigation() {
               <p className="text-xs text-slate-500">Free Online Tool</p>
             </div>
           </Link>
-          <nav className="flex items-center gap-4">
+          
+          {/* 桌面端导航 */}
+          <nav className="hidden md:flex items-center gap-4">
             {navItems.map((item) => {
-              const isActive =
-                pathname === item.href ||
-                (item.href === '/to-jpg' && /^\/[a-z0-9]+-to-jpg$/.test(pathname)) ||
-                (item.href === '/to-webp' && /^\/[a-z0-9]+-to-webp$/.test(pathname)) ||
-                (item.href === '/to-png' && /^\/[a-z0-9]+-to-png$/.test(pathname))
+              const active = isActive(item.href)
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-colors ${
-                    isActive
+                    active
                       ? 'bg-blue-500 text-white shadow-sm hover:bg-blue-600'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
@@ -49,7 +58,50 @@ export default function Navigation() {
               )
             })}
           </nav>
+
+          {/* 移动端菜单按钮 */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
         </div>
+
+        {/* 移动端导航菜单 */}
+        {mobileMenuOpen && (
+          <nav className="md:hidden mt-4 pb-2 border-t border-slate-200 pt-4">
+            <div className="flex flex-col gap-2">
+              {navItems.map((item) => {
+                const active = isActive(item.href)
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`px-4 py-3 rounded-lg font-semibold text-sm transition-colors ${
+                      active
+                        ? 'bg-blue-500 text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   )
