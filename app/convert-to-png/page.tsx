@@ -1,4 +1,5 @@
 import Navigation from '@/components/Navigation'
+import Footer from '@/components/Footer'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
