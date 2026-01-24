@@ -7,6 +7,8 @@ import { notFound } from 'next/navigation'
 
 type Props = { params: Promise<{ source: string }> }
 
+export const dynamicParams = false
+
 export async function generateStaticParams() {
   return FORMAT_SLUGS.map((source) => ({ source }))
 }

@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: [],
+    unoptimized: true, // 对于静态导出或某些部署平台
   },
   // 自定义 webpack 会禁用 webpack build worker
   webpack: (config) => config,
