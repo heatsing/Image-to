@@ -4,6 +4,13 @@ import { locales, defaultLocale, isValidLocale, getLocaleFromPath } from './lib/
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  
+  // Exclude SEO files and system files from locale redirection
+  const seoFiles = ['/sitemap.xml', '/robots.txt', '/sitemap', '/robots']
+  if (seoFiles.includes(pathname) || pathname.endsWith('.xml') || pathname.endsWith('.txt')) {
+    return NextResponse.next()
+  }
+  
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   )
@@ -56,8 +63,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - sitemap.xml, robots.txt (SEO files)
      * - logo.svg, logo.png, icon.svg, etc. (public assets)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap\\.xml|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|xml|txt)$).*)',
   ],
 }
