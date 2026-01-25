@@ -6,8 +6,15 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
   // Exclude SEO files and system files from locale redirection
+  // These files must be accessible at root level for search engines
   const seoFiles = ['/sitemap.xml', '/robots.txt', '/sitemap', '/robots']
-  if (seoFiles.includes(pathname) || pathname.endsWith('.xml') || pathname.endsWith('.txt')) {
+  const isSeoFile = seoFiles.includes(pathname) || 
+                    pathname.endsWith('.xml') || 
+                    pathname.endsWith('.txt') ||
+                    pathname === '/sitemap' ||
+                    pathname === '/robots'
+  
+  if (isSeoFile) {
     return NextResponse.next()
   }
   
@@ -63,9 +70,17 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - sitemap.xml, robots.txt (SEO files)
+     * - sitemap.xml, robots.txt (SEO files - MUST be excluded)
      * - logo.svg, logo.png, icon.svg, etc. (public assets)
+     * 
+     * Important: sitemap.xml and robots.txt must be accessible at root
+     * for Google Search Console and other search engines.
+     * 
+     * The negative lookahead excludes:
+     * - Paths starting with: api, _next/static, _next/image, favicon.ico
+     * - Paths exactly matching: sitemap.xml, robots.txt
+     * - Paths ending with: .svg, .png, .jpg, .jpeg, .gif, .webp, .ico, .xml, .txt
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|sitemap\\.xml|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|xml|txt)$).*)',
+    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|xml|txt)$).*)',
   ],
 }
