@@ -17,7 +17,7 @@ git status
 
 echo.
 echo 3. 提交...
-git commit -m "SEO: update all meta titles to '[Description] | Sckde.com' format" 2>nul
+git commit -m "Fix: add 'jpg' to FORMAT_SLUGS to support jpg-to-* routes" 2>nul
 if errorlevel 1 (
     echo 无新提交或已提交，继续推送...
 ) else (
