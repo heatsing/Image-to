@@ -5,11 +5,11 @@ import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import Script from 'next/script'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix, DEFAULT_KEYWORDS } from '@/lib/seo'
-import { FAQ_DATA } from '@/lib/faq-data'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
+import { FAQ_DATA } from '@/lib/faq-data'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -17,36 +17,26 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const messages = getMessages(locale)
-  const homeTitle = t(locale, 'home.title')
-  const homeDesc = t(locale, 'home.subtitle')
+  const homeTitle = messages.seo?.homeTitle || t(locale, 'home.title')
+  const homeDesc = messages.seo?.homeDescription || t(locale, 'home.subtitle')
+  const homeKeywords = messages.seo?.homeKeywords || [
+    'image converter',
+    'convert to JPG',
+    'convert to WebP',
+    'convert to PNG',
+    'batch image converter',
+    'free image converter',
+    'online image converter',
+  ]
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: homeTitle,
-    description: `${homeDesc} | Sckde.com`,
-    keywords: [
-      ...DEFAULT_KEYWORDS,
-      'convert to JPG',
-      'convert to WebP',
-      'convert to PNG',
-      'batch image converter',
-    ],
-    openGraph: {
-      title: titleWithSuffix(homeTitle),
-      description: `${homeDesc} | Sckde.com`,
-      url: locale === 'en' ? baseUrl : `${baseUrl}/${locale}`,
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: titleWithSuffix(homeTitle),
-      description: `${homeDesc} | Sckde.com`,
-    },
-    alternates: {
-      canonical: locale === 'en' ? baseUrl : `${baseUrl}/${locale}`,
-    },
-  }
+    description: homeDesc,
+    keywords: homeKeywords,
+    path: locale === 'en' ? '' : `/${locale}`,
+  })
 }
 
 export default async function HomePage({ params }: Props) {

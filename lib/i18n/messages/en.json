@@ -80,5 +80,31 @@
   },
   "footer": {
     "copyright": "© {year} Image Converter. All rights reserved."
+  },
+  "seo": {
+    "defaultTitle": "Convert images to JPG, WebP, PNG online for free | Sckde.com",
+    "defaultDescription": "100% free online image converter. Convert images to JPG, WebP, or PNG locally—no uploads, no signup. Your files never leave your device.",
+    "defaultKeywords": [
+      "image converter",
+      "JPG converter",
+      "WebP converter",
+      "PNG converter",
+      "convert image",
+      "image format converter",
+      "free image converter",
+      "local image conversion",
+      "batch image converter"
+    ],
+    "homeTitle": "Image Format Converter - Free Online Tool | Sckde.com",
+    "homeDescription": "Convert images to JPG, WebP, or PNG. 100% free and secure. All conversion happens locally—your files never leave your device.",
+    "homeKeywords": [
+      "image converter",
+      "convert to JPG",
+      "convert to WebP",
+      "convert to PNG",
+      "batch image converter",
+      "free image converter",
+      "online image converter"
+    ]
   }
 }

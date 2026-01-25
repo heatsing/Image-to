@@ -5,10 +5,10 @@ import BenefitsSection from '@/components/BenefitsSection'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -16,13 +16,14 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const pageTitle = t(locale, 'converter.title', { format: 'PNG' })
   const pageDesc = t(locale, 'converter.description', { format: 'PNG' })
+  const path = addLocaleToPath('/convert-to-png', locale)
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: pageTitle,
-    description: `${pageDesc} | Sckde.com`,
+    description: pageDesc,
     keywords: [
       'image to PNG',
       'convert to PNG',
@@ -30,22 +31,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       'image converter',
       'free PNG converter',
       'local image conversion',
+      'batch PNG converter',
     ],
-    openGraph: {
-      title: titleWithSuffix(pageTitle),
-      description: `${pageDesc} | Sckde.com`,
-      url: addLocaleToPath('/convert-to-png', locale),
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: titleWithSuffix(pageTitle),
-      description: `${pageDesc} | Sckde.com`,
-    },
-    alternates: {
-      canonical: addLocaleToPath('/convert-to-png', locale),
-    },
-  }
+    path: path.startsWith('/') ? path : `/${path}`,
+  })
 }
 
 export default async function ToPNGPage({ params }: Props) {

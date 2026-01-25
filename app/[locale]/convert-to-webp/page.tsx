@@ -5,10 +5,10 @@ import BenefitsSection from '@/components/BenefitsSection'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -16,13 +16,14 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const pageTitle = t(locale, 'converter.title', { format: 'WebP' })
   const pageDesc = t(locale, 'converter.description', { format: 'WebP' })
+  const path = addLocaleToPath('/convert-to-webp', locale)
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: pageTitle,
-    description: `${pageDesc} | Sckde.com`,
+    description: pageDesc,
     keywords: [
       'image to WebP',
       'convert to WebP',
@@ -30,22 +31,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       'image converter',
       'free WebP converter',
       'local image conversion',
+      'batch WebP converter',
     ],
-    openGraph: {
-      title: titleWithSuffix(pageTitle),
-      description: `${pageDesc} | Sckde.com`,
-      url: addLocaleToPath('/convert-to-webp', locale),
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: titleWithSuffix(pageTitle),
-      description: `${pageDesc} | Sckde.com`,
-    },
-    alternates: {
-      canonical: addLocaleToPath('/convert-to-webp', locale),
-    },
-  }
+    path: path.startsWith('/') ? path : `/${path}`,
+  })
 }
 
 export default async function ToWebPPage({ params }: Props) {

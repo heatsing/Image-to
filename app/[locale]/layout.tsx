@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import '../globals.css'
-import { getBaseUrl, SITE_NAME, TITLE_SUFFIX, DEFAULT_DESCRIPTION, DEFAULT_KEYWORDS } from '@/lib/seo'
+import { getBaseUrl, SITE_NAME, TITLE_SUFFIX } from '@/lib/seo'
 import { type Locale, locales, defaultLocale, isValidLocale } from '@/lib/i18n/config'
-import { getMessages } from '@/lib/i18n'
+import { getMessages, t } from '@/lib/i18n'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
@@ -22,16 +22,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const messages = getMessages(locale)
   const lang = locale === 'zh-cn' ? 'zh-CN' : locale === 'zh-tw' ? 'zh-TW' : locale === 'en' ? 'en-US' : locale
   
+  // Get SEO content from translations
+  const seoTitle = messages.seo?.defaultTitle || `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`
+  const seoDescription = messages.seo?.defaultDescription || '100% free online image converter. Convert images to JPG, WebP, or PNG locally—no uploads, no signup. Your files never leave your device.'
+  const seoKeywords = messages.seo?.defaultKeywords || [
+    'image converter',
+    'JPG converter',
+    'WebP converter',
+    'PNG converter',
+    'convert image',
+    'image format converter',
+    'free image converter',
+    'local image conversion',
+    'batch image converter'
+  ]
+  
+  // Generate hreflang map for all locales
+  const hreflangMap: Record<string, string> = {}
+  locales.forEach((loc) => {
+    const hreflang = loc === 'zh-cn' ? 'zh-CN' : loc === 'zh-tw' ? 'zh-TW' : loc === 'en' ? 'en-US' : loc
+    const url = loc === defaultLocale ? baseUrl : `${baseUrl}/${loc}`
+    hreflangMap[hreflang] = url
+  })
+  
   return {
     metadataBase: new URL(baseUrl),
     title: {
-      default: `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`,
+      default: seoTitle,
       template: `%s | ${TITLE_SUFFIX}`,
     },
-    description: DEFAULT_DESCRIPTION,
-    keywords: DEFAULT_KEYWORDS,
+    description: seoDescription,
+    keywords: seoKeywords,
     authors: [{ name: SITE_NAME, url: baseUrl }],
     creator: SITE_NAME,
+    publisher: SITE_NAME,
     icons: {
       icon: [
         { url: '/icon.svg', type: 'image/svg+xml' },
@@ -44,8 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: lang,
       url: locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`,
       siteName: TITLE_SUFFIX,
-      title: `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`,
-      description: DEFAULT_DESCRIPTION,
+      title: seoTitle,
+      description: seoDescription,
       images: [
         {
           url: `${baseUrl}/logo.png`,
@@ -54,24 +78,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           alt: `${SITE_NAME} Logo`,
         },
       ],
-      alternateLocale: locales.map((loc) => (loc === defaultLocale ? baseUrl : `${baseUrl}/${loc}`)),
+      alternateLocale: Object.keys(hreflangMap).filter(l => l !== lang),
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`,
-      description: DEFAULT_DESCRIPTION,
+      title: seoTitle,
+      description: seoDescription,
       images: [`${baseUrl}/logo.png`],
     },
     alternates: {
       canonical: locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`,
-      languages: Object.fromEntries(
-        locales.map((loc) => [loc, loc === defaultLocale ? baseUrl : `${baseUrl}/${loc}`])
-      ),
+      languages: hreflangMap,
     },
     robots: {
       index: true,
       follow: true,
-      googleBot: { index: true, follow: true },
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
   }
 }

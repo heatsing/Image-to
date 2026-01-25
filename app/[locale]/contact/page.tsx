@@ -4,10 +4,10 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -15,22 +15,18 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const messages = getMessages(locale)
   const pageTitle = messages.common.contact
   const description = "Get in touch with Image Converter. Have questions, feedback, or suggestions? We'd love to hear from you."
+  const path = addLocaleToPath('/contact', locale)
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: pageTitle,
-    description: `${description} | Sckde.com`,
-    openGraph: {
-      title: titleWithSuffix(pageTitle),
-      description: 'Get in touch with Image Converter team.',
-      url: addLocaleToPath('/contact', locale),
-      type: 'website',
-    },
-    alternates: { canonical: addLocaleToPath('/contact', locale) },
-  }
+    description,
+    keywords: ['contact', 'support', 'image converter', 'help'],
+    path: path.startsWith('/') ? path : `/${path}`,
+  })
 }
 
 export default async function ContactPage({ params }: Props) {

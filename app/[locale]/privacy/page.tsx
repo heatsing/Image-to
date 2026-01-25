@@ -4,10 +4,10 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -15,22 +15,18 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const messages = getMessages(locale)
   const pageTitle = messages.common.privacy
   const description = 'Read the privacy policy for Image Converter. Learn how we protect your privacy with 100% local processing and no data collection.'
+  const path = addLocaleToPath('/privacy', locale)
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: pageTitle,
-    description: `${description} | Sckde.com`,
-    openGraph: {
-      title: titleWithSuffix(pageTitle),
-      description: 'Privacy policy for Image Converter - 100% local processing, no data collection.',
-      url: addLocaleToPath('/privacy', locale),
-      type: 'website',
-    },
-    alternates: { canonical: addLocaleToPath('/privacy', locale) },
-  }
+    description,
+    keywords: ['privacy', 'privacy policy', 'data protection', 'image converter'],
+    path: path.startsWith('/') ? path : `/${path}`,
+  })
 }
 
 export default async function PrivacyPage({ params }: Props) {

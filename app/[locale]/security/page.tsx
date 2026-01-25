@@ -4,10 +4,10 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -15,22 +15,18 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const messages = getMessages(locale)
   const pageTitle = messages.common.security
   const description = 'Learn about the security measures and privacy protections in place at Image Converter. 100% local processing, no data collection.'
+  const path = addLocaleToPath('/security', locale)
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: pageTitle,
-    description: `${description} | Sckde.com`,
-    openGraph: {
-      title: titleWithSuffix(pageTitle),
-      description: 'Learn about the security measures and privacy protections at Image Converter.',
-      url: addLocaleToPath('/security', locale),
-      type: 'website',
-    },
-    alternates: { canonical: addLocaleToPath('/security', locale) },
-  }
+    description,
+    keywords: ['security', 'privacy', 'data protection', 'secure image converter'],
+    path: path.startsWith('/') ? path : `/${path}`,
+  })
 }
 
 export default async function SecurityPage({ params }: Props) {

@@ -10,12 +10,12 @@ import {
   slugToLabel,
   getTargetLabel,
 } from '@/lib/formats'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale, locales } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale; slug: string }>
@@ -37,9 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { source, target } = parsed
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
-  const baseUrl = getBaseUrl()
   const titlePart = t(locale, 'converter.title', { format: to })
-  const title = titleWithSuffix(titlePart)
   const description = t(locale, 'converter.description', { format: to })
   const url = addLocaleToPath(`/${slug}`, locale)
   const kw = [
@@ -48,15 +46,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `${from} to ${to} converter`,
     'image converter',
     'free image converter',
+    'local image conversion',
   ]
-  return {
+  
+  return generatePageMetadata({
+    locale,
     title: titlePart,
-    description: `${description} | Sckde.com`,
+    description,
     keywords: kw,
-    openGraph: { title, description: `${description} | Sckde.com`, url, type: 'website' },
-    twitter: { card: 'summary_large_image', title, description: `${description} | Sckde.com` },
-    alternates: { canonical: url },
-  }
+    path: url.startsWith('/') ? url : `/${url}`,
+  })
 }
 
 export default async function ConverterSlugPage({ params }: Props) {

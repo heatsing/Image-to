@@ -4,10 +4,10 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -15,22 +15,18 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const messages = getMessages(locale)
   const pageTitle = messages.common.about
-  const description = 'Learn about Image Converter, a free online tool for converting images to JPG, WebP, or PNG. 100% local conversion, no uploads, no signup.'
+  const description = t(locale, 'home.subtitle') || 'Learn about Image Converter, a free online tool for converting images to JPG, WebP, or PNG. 100% local conversion, no uploads, no signup.'
+  const path = addLocaleToPath('/about', locale)
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: pageTitle,
-    description: `${description} | Sckde.com`,
-    openGraph: {
-      title: titleWithSuffix(pageTitle),
-      description: 'Learn about Image Converter, a free online tool for converting images.',
-      url: addLocaleToPath('/about', locale),
-      type: 'website',
-    },
-    alternates: { canonical: addLocaleToPath('/about', locale) },
-  }
+    description,
+    keywords: ['about', 'image converter', 'free tool', 'online converter'],
+    path: path.startsWith('/') ? path : `/${path}`,
+  })
 }
 
 export default async function AboutPage({ params }: Props) {

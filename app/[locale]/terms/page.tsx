@@ -4,10 +4,10 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
+import { generatePageMetadata } from '@/lib/seo-i18n'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -15,22 +15,18 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = getBaseUrl()
   const messages = getMessages(locale)
   const pageTitle = messages.common.terms
   const description = 'Read the terms of use for Image Converter. Free online image conversion tool with no signup required.'
+  const path = addLocaleToPath('/terms', locale)
 
-  return {
+  return generatePageMetadata({
+    locale,
     title: pageTitle,
-    description: `${description} | Sckde.com`,
-    openGraph: {
-      title: titleWithSuffix(pageTitle),
-      description: 'Terms of use for Image Converter.',
-      url: addLocaleToPath('/terms', locale),
-      type: 'website',
-    },
-    alternates: { canonical: addLocaleToPath('/terms', locale) },
-  }
+    description,
+    keywords: ['terms', 'terms of use', 'legal', 'image converter'],
+    path: path.startsWith('/') ? path : `/${path}`,
+  })
 }
 
 export default async function TermsPage({ params }: Props) {
