@@ -1,84 +1,110 @@
 {
   "common": {
     "siteName": "SCKDE.COM",
-    "siteTagline": "Image Converter Online Tool",
-    "free": "Free",
-    "online": "Online",
-    "tool": "Tool",
-    "convert": "Convert",
-    "download": "Download",
-    "upload": "Upload",
-    "select": "Select",
-    "dragDrop": "Drag and drop images here",
-    "or": "or",
-    "browse": "Browse",
-    "supportedFormats": "Supported Formats",
-    "about": "About us",
-    "contact": "Contact us",
-    "security": "Security",
-    "terms": "Terms of use",
-    "privacy": "Privacy policy"
+    "siteTagline": "画像変換オンラインツール",
+    "free": "無料",
+    "online": "オンライン",
+    "tool": "ツール",
+    "convert": "変換",
+    "download": "ダウンロード",
+    "upload": "アップロード",
+    "select": "選択",
+    "dragDrop": "ここに画像をドラッグ＆ドロップ",
+    "or": "または",
+    "browse": "閲覧",
+    "supportedFormats": "対応フォーマット",
+    "about": "私たちについて",
+    "contact": "お問い合わせ",
+    "security": "セキュリティ",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー"
   },
   "nav": {
-    "imagesToJpg": "Images to JPG",
-    "imagesToWebp": "Images to WebP",
-    "imagesToPng": "Images to PNG"
+    "imagesToJpg": "画像をJPGに変換",
+    "imagesToWebp": "画像をWebPに変換",
+    "imagesToPng": "画像をPNGに変換"
   },
   "home": {
-    "title": "Image Format Converter",
-    "subtitle": "Convert images to JPG, WebP, or PNG. 100% free and secure. All conversion happens locally—your files never leave your device.",
-    "convertToJpg": "Convert any image format to JPG. Perfect for photos and web use.",
-    "convertToWebp": "Convert images to WebP for smaller file sizes and faster loading.",
-    "convertToPng": "Convert images to PNG for lossless quality and transparency support.",
-    "convertNow": "Convert Now"
+    "title": "画像フォーマット変換ツール",
+    "subtitle": "画像をJPG、WebP、またはPNGに変換。100%無料で安全。すべての変換はローカルで行われます—ファイルはデバイスから離れません。",
+    "convertToJpg": "あらゆる画像フォーマットをJPGに変換。写真やウェブ使用に最適です。",
+    "convertToWebp": "画像をWebPに変換して、ファイルサイズを小さくし、読み込みを高速化。",
+    "convertToPng": "画像をPNGに変換して、ロスレス品質と透明度サポートを実現。",
+    "convertNow": "今すぐ変換"
   },
   "converter": {
-    "title": "Image to {format} Converter",
-    "description": "100% free. Convert images to {format} locally—no uploads, no signup. Your files never leave your device.",
-    "localConversion": "Local conversion",
-    "localConversionDesc": "Conversion runs on your device only. Files never leave your computer—no uploads, no servers.",
-    "superFast": "Super Fast",
-    "superFastDesc": "Each file costs about 1 second for conversion. Batch process hundreds of images at once.",
-    "fullyFunctional": "Fully Functional",
-    "fullyFunctionalDesc": "Handles all jobs involved with image to {format} conversion. From any format to {format}."
+    "title": "画像を{format}に変換",
+    "description": "100%無料。画像を{format}にローカルで変換—アップロード不要、登録不要。ファイルはデバイスから離れません。",
+    "localConversion": "ローカル変換",
+    "localConversionDesc": "変換はデバイス上でのみ実行されます。ファイルはコンピューターから離れません—アップロード不要、サーバー不要。",
+    "superFast": "超高速",
+    "superFastDesc": "各ファイルの変換に約1秒かかります。数百枚の画像を一度に一括処理できます。",
+    "fullyFunctional": "完全機能",
+    "fullyFunctionalDesc": "画像を{format}に変換するすべての作業を処理します。あらゆるフォーマットから{format}へ。"
   },
   "benefits": {
-    "title": "Why Choose Our Image Converter?",
-    "subtitle": "Powerful features that make image conversion simple and secure",
+    "title": "なぜ当社の画像変換ツールを選ぶのか？",
+    "subtitle": "画像変換をシンプルで安全にする強力な機能",
     "local": {
-      "title": "100% Local Conversion",
-      "description": "All image conversion happens entirely on your device. Your files never leave your computer—no uploads to servers, no data collection, complete privacy and security.",
-      "bullet1": "No file uploads required",
-      "bullet2": "Complete data privacy",
-      "bullet3": "Works offline"
+      "title": "100%ローカル変換",
+      "description": "すべての画像変換は完全にデバイス上で行われます。ファイルはコンピューターから離れません—サーバーへのアップロードなし、データ収集なし、完全なプライバシーとセキュリティ。",
+      "bullet1": "ファイルアップロード不要",
+      "bullet2": "完全なデータプライバシー",
+      "bullet3": "オフラインで動作"
     },
     "fast": {
-      "title": "Lightning Fast Processing",
-      "description": "Convert images in seconds, not minutes. Our optimized conversion engine processes each file in about 1 second, and you can batch process hundreds of images simultaneously.",
-      "bullet1": "~1 second per image",
-      "bullet2": "Batch processing support",
-      "bullet3": "No waiting in queues"
+      "title": "超高速処理",
+      "description": "数分ではなく数秒で画像を変換。最適化された変換エンジンは各ファイルを約1秒で処理し、数百枚の画像を同時に一括処理できます。",
+      "bullet1": "画像1枚あたり約1秒",
+      "bullet2": "一括処理サポート",
+      "bullet3": "待ち行列なし"
     },
     "free": {
-      "title": "100% Free Forever",
-      "description": "No hidden fees, no subscriptions, no watermarks. Use our image converter as much as you want, whenever you need it. Completely free with no strings attached.",
-      "bullet1": "No signup required",
-      "bullet2": "No usage limits",
-      "bullet3": "No watermarks on output"
+      "title": "永久100%無料",
+      "description": "隠れた費用なし、サブスクリプションなし、ウォーターマークなし。必要なときにいつでも、好きなだけ画像変換ツールを使用できます。完全無料で条件なし。",
+      "bullet1": "登録不要",
+      "bullet2": "使用制限なし",
+      "bullet3": "出力にウォーターマークなし"
     },
     "batch": {
-      "title": "Batch Processing Power",
-      "description": "Convert multiple images at once with our powerful batch processing feature. Upload hundreds of images and convert them all in one go, saving you hours of manual work.",
-      "bullet1": "Process hundreds of images",
-      "bullet2": "Individual file status tracking",
-      "bullet3": "Download all at once"
+      "title": "一括処理パワー",
+      "description": "強力な一括処理機能で複数の画像を一度に変換。数百枚の画像をアップロードして、すべてを一度に変換し、数時間の手作業を節約できます。",
+      "bullet1": "数百枚の画像を処理",
+      "bullet2": "個別ファイルステータス追跡",
+      "bullet3": "一度にすべてダウンロード"
     }
   },
   "faq": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Everything you need to know about our image converter"
+    "title": "よくある質問",
+    "subtitle": "画像変換ツールについて知っておくべきすべて"
   },
   "footer": {
     "copyright": "© {year} Image Converter. All rights reserved."
+  },
+  "seo": {
+    "defaultTitle": "無料オンライン画像フォーマット変換ツール - JPG、WebP、PNG | Sckde.com",
+    "defaultDescription": "100%無料のオンライン画像変換ツール。画像をJPG、WebP、またはPNGにローカルで変換—アップロード不要、登録不要。ファイルはデバイスから離れません。",
+    "defaultKeywords": [
+      "画像変換ツール",
+      "JPG変換ツール",
+      "WebP変換ツール",
+      "PNG変換ツール",
+      "画像変換",
+      "画像フォーマット変換",
+      "無料画像変換",
+      "ローカル画像変換",
+      "一括画像変換"
+    ],
+    "homeTitle": "画像フォーマット変換ツール - 無料オンラインツール | Sckde.com",
+    "homeDescription": "画像をJPG、WebP、またはPNGに変換。100%無料で安全。すべての変換はローカルで行われます—ファイルはデバイスから離れません。",
+    "homeKeywords": [
+      "画像変換ツール",
+      "JPG変換",
+      "WebP変換",
+      "PNG変換",
+      "一括画像変換",
+      "無料画像変換",
+      "オンライン画像変換"
+    ]
   }
 }
