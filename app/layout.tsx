@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { getBaseUrl, SITE_NAME, DEFAULT_DESCRIPTION, DEFAULT_KEYWORDS } from '@/lib/seo'
+import { getBaseUrl, SITE_NAME, TITLE_SUFFIX, DEFAULT_DESCRIPTION, DEFAULT_KEYWORDS } from '@/lib/seo'
 
 const baseUrl = getBaseUrl()
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: `${SITE_NAME} - Free Online Tool`,
-    template: `%s | ${SITE_NAME}`,
+    default: `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`,
+    template: `%s | ${TITLE_SUFFIX}`,
   },
   description: DEFAULT_DESCRIPTION,
   keywords: DEFAULT_KEYWORDS,
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: baseUrl,
-    siteName: SITE_NAME,
-    title: `${SITE_NAME} - Free Online Tool`,
+    siteName: TITLE_SUFFIX,
+    title: `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`,
     description: DEFAULT_DESCRIPTION,
     images: [
       {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE_NAME} - Free Online Tool`,
+    title: `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`,
     description: DEFAULT_DESCRIPTION,
     images: [`${baseUrl}/logo.png`],
   },

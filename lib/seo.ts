@@ -15,6 +15,13 @@ export function getBaseUrl(): string {
 }
 
 export const SITE_NAME = 'Image Converter'
+/** Meta title suffix, e.g. "Convert WEBP to JPG online for free | Sckde.com" */
+export const TITLE_SUFFIX = 'Sckde.com'
+
+export function titleWithSuffix(part: string): string {
+  return `${part} | ${TITLE_SUFFIX}`
+}
+
 export const DEFAULT_DESCRIPTION =
   '100% free online image converter. Convert images to JPG, WebP, or PNG locally—no uploads, no signup. Your files never leave your device.'
 

@@ -4,16 +4,16 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl } from '@/lib/seo'
+import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 
 const baseUrl = getBaseUrl()
-
+const pageTitle = 'Security'
 export const metadata: Metadata = {
-  title: 'Security - Image Converter',
+  title: pageTitle,
   description:
     'Learn about the security measures and privacy protections in place at Image Converter. 100% local processing, no data collection.',
   openGraph: {
-    title: 'Security - Image Converter',
+    title: titleWithSuffix(pageTitle),
     description: 'Learn about the security measures and privacy protections at Image Converter.',
     url: `${baseUrl}/security`,
     type: 'website',

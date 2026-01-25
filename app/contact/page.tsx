@@ -4,16 +4,16 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl } from '@/lib/seo'
+import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 
 const baseUrl = getBaseUrl()
-
+const pageTitle = 'Contact us'
 export const metadata: Metadata = {
-  title: 'Contact Us - Image Converter',
+  title: pageTitle,
   description:
     "Get in touch with Image Converter. Have questions, feedback, or suggestions? We'd love to hear from you.",
   openGraph: {
-    title: 'Contact Us - Image Converter',
+    title: titleWithSuffix(pageTitle),
     description: 'Get in touch with Image Converter team.',
     url: `${baseUrl}/contact`,
     type: 'website',

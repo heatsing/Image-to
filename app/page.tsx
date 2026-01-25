@@ -5,13 +5,14 @@ import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import Script from 'next/script'
 import type { Metadata } from 'next'
-import { getBaseUrl, DEFAULT_KEYWORDS } from '@/lib/seo'
+import { getBaseUrl, titleWithSuffix, DEFAULT_KEYWORDS } from '@/lib/seo'
 import { FAQ_DATA } from '@/lib/faq-data'
 
 const baseUrl = getBaseUrl()
 
+const homeTitle = 'Convert images to JPG, WebP, PNG online for free'
 export const metadata: Metadata = {
-  title: 'Image Converter - Free Online Tool',
+  title: homeTitle,
   description:
     '100% free online image converter. Convert images to JPG, WebP, or PNG locally—no uploads, no signup. Your files never leave your device. Batch convert 40+ formats.',
   keywords: [
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     'batch image converter',
   ],
   openGraph: {
-    title: 'Image Converter - Free Online Tool',
+    title: titleWithSuffix(homeTitle),
     description:
       '100% free. Convert images to JPG, WebP, or PNG locally. No uploads, no signup. Batch convert 40+ formats.',
     url: baseUrl,
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Image Converter - Free Online Tool',
+    title: titleWithSuffix(homeTitle),
     description: '100% free. Convert images to JPG, WebP, or PNG locally. No uploads, no signup.',
   },
   alternates: { canonical: baseUrl },

@@ -10,7 +10,7 @@ import {
   slugToLabel,
   getTargetLabel,
 } from '@/lib/formats'
-import { getBaseUrl } from '@/lib/seo'
+import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -30,7 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
   const baseUrl = getBaseUrl()
-  const title = `${from} to ${to} Converter - Free Online Tool`
+  const titlePart = `Convert ${from} to ${to} online for free`
+  const title = titleWithSuffix(titlePart)
   const description = `100% free. Convert ${from} to ${to} locally—no uploads, no signup. Your files never leave your device. 40+ formats. Batch convert.`
   const url = `${baseUrl}/${slug}`
   const kw = [
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     'free image converter',
   ]
   return {
-    title,
+    title: titlePart,
     description,
     keywords: kw,
     openGraph: { title, description, url, type: 'website' },

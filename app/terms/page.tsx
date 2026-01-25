@@ -4,16 +4,16 @@ import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getBaseUrl } from '@/lib/seo'
+import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 
 const baseUrl = getBaseUrl()
-
+const pageTitle = 'Terms of use'
 export const metadata: Metadata = {
-  title: 'Terms of Use - Image Converter',
+  title: pageTitle,
   description:
     'Read the terms of use for Image Converter. Free online image conversion tool with no signup required.',
   openGraph: {
-    title: 'Terms of Use - Image Converter',
+    title: titleWithSuffix(pageTitle),
     description: 'Terms of use for Image Converter.',
     url: `${baseUrl}/terms`,
     type: 'website',

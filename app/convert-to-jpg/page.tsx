@@ -5,12 +5,13 @@ import BenefitsSection from '@/components/BenefitsSection'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
-import { getBaseUrl } from '@/lib/seo'
+import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
 
 const baseUrl = getBaseUrl()
 
+const pageTitle = 'Convert images to JPG online for free'
 export const metadata: Metadata = {
-  title: 'Image to JPG Converter - Free Online Tool',
+  title: pageTitle,
   description:
     '100% free. Convert images to JPG locally—no uploads, no signup. Your files never leave your device. 40+ formats supported. Batch convert.',
   keywords: [
@@ -22,14 +23,14 @@ export const metadata: Metadata = {
     'local image conversion',
   ],
   openGraph: {
-    title: 'Image to JPG Converter - Free Online Tool',
+    title: titleWithSuffix(pageTitle),
     description: '100% free. Convert images to JPG locally. No uploads, no signup. 40+ formats.',
     url: `${baseUrl}/convert-to-jpg`,
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Image to JPG Converter - Free Online Tool',
+    title: titleWithSuffix(pageTitle),
     description: '100% free. Convert images to JPG locally. No uploads, no signup.',
   },
   alternates: { canonical: `${baseUrl}/convert-to-jpg` },
