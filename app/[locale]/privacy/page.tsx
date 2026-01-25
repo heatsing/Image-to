@@ -5,23 +5,38 @@ import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
+import { type Locale } from '@/lib/i18n/config'
+import { getMessages, t } from '@/lib/i18n'
+import { addLocaleToPath } from '@/lib/i18n/config'
 
-const baseUrl = getBaseUrl()
-const pageTitle = 'Privacy policy'
-export const metadata: Metadata = {
-  title: pageTitle,
-  description:
-    'Read the privacy policy for Image Converter. Learn how we protect your privacy with 100% local processing and no data collection.',
-  openGraph: {
-    title: titleWithSuffix(pageTitle),
-    description: 'Privacy policy for Image Converter - 100% local processing, no data collection.',
-    url: `${baseUrl}/privacy`,
-    type: 'website',
-  },
-  alternates: { canonical: `${baseUrl}/privacy` },
+type Props = {
+  params: Promise<{ locale: Locale }>
 }
 
-export default function PrivacyPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const baseUrl = getBaseUrl()
+  const messages = getMessages(locale)
+  const pageTitle = messages.common.privacy
+  const description = 'Read the privacy policy for Image Converter. Learn how we protect your privacy with 100% local processing and no data collection.'
+
+  return {
+    title: pageTitle,
+    description: `${description} | Sckde.com`,
+    openGraph: {
+      title: titleWithSuffix(pageTitle),
+      description: 'Privacy policy for Image Converter - 100% local processing, no data collection.',
+      url: addLocaleToPath('/privacy', locale),
+      type: 'website',
+    },
+    alternates: { canonical: addLocaleToPath('/privacy', locale) },
+  }
+}
+
+export default async function PrivacyPage({ params }: Props) {
+  const { locale } = await params
+  const messages = getMessages(locale)
+
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
       <Navigation />
@@ -144,7 +159,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Contact Us</h2>
             <p className="text-slate-600 leading-relaxed">
               If you have any questions about this Privacy Policy, please{' '}
-              <Link href="/contact" className="text-blue-600 hover:text-blue-700 underline">
+              <Link href={addLocaleToPath('/contact', locale)} className="text-blue-600 hover:text-blue-700 underline">
                 contact us
               </Link>
               .
@@ -152,7 +167,7 @@ export default function PrivacyPage() {
           </section>
         </div>
 
-        <BenefitsSection title="Why Choose Image Converter?" subtitle="100% local processing, no data collection—your privacy comes first." />
+        <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
       </main>
       <Footer />

@@ -1,6 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { getLocaleFromPath, addLocaleToPath, type Locale } from '@/lib/i18n/config'
+import { getMessages, t } from '@/lib/i18n'
 
 export default function Footer() {
+  const pathname = usePathname()
+  const locale = getLocaleFromPath(pathname)
+  const messages = getMessages(locale)
   const currentYear = new Date().getFullYear()
 
   return (
@@ -9,40 +17,40 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Copyright */}
           <div className="text-sm text-white text-center md:text-left">
-            <p>© {currentYear} Image Converter. All rights reserved.</p>
+            <p>{t(locale, 'footer.copyright', { year: currentYear.toString() })}</p>
           </div>
 
           {/* Links */}
           <nav className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm">
             <Link
-              href="/about"
+              href={addLocaleToPath('/about', locale)}
               className="text-white hover:text-slate-300 transition-colors"
             >
-              About us
+              {messages.common.about}
             </Link>
             <Link
-              href="/security"
+              href={addLocaleToPath('/security', locale)}
               className="text-white hover:text-slate-300 transition-colors"
             >
-              Security
+              {messages.common.security}
             </Link>
             <Link
-              href="/terms"
+              href={addLocaleToPath('/terms', locale)}
               className="text-white hover:text-slate-300 transition-colors"
             >
-              Terms of use
+              {messages.common.terms}
             </Link>
             <Link
-              href="/privacy"
+              href={addLocaleToPath('/privacy', locale)}
               className="text-white hover:text-slate-300 transition-colors"
             >
-              Privacy policy
+              {messages.common.privacy}
             </Link>
             <Link
-              href="/contact"
+              href={addLocaleToPath('/contact', locale)}
               className="text-white hover:text-slate-300 transition-colors"
             >
-              Contact us
+              {messages.common.contact}
             </Link>
           </nav>
         </div>

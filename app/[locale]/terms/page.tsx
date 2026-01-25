@@ -5,23 +5,38 @@ import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
+import { type Locale } from '@/lib/i18n/config'
+import { getMessages, t } from '@/lib/i18n'
+import { addLocaleToPath } from '@/lib/i18n/config'
 
-const baseUrl = getBaseUrl()
-const pageTitle = 'Terms of use'
-export const metadata: Metadata = {
-  title: pageTitle,
-  description:
-    'Read the terms of use for Image Converter. Free online image conversion tool with no signup required.',
-  openGraph: {
-    title: titleWithSuffix(pageTitle),
-    description: 'Terms of use for Image Converter.',
-    url: `${baseUrl}/terms`,
-    type: 'website',
-  },
-  alternates: { canonical: `${baseUrl}/terms` },
+type Props = {
+  params: Promise<{ locale: Locale }>
 }
 
-export default function TermsPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const baseUrl = getBaseUrl()
+  const messages = getMessages(locale)
+  const pageTitle = messages.common.terms
+  const description = 'Read the terms of use for Image Converter. Free online image conversion tool with no signup required.'
+
+  return {
+    title: pageTitle,
+    description: `${description} | Sckde.com`,
+    openGraph: {
+      title: titleWithSuffix(pageTitle),
+      description: 'Terms of use for Image Converter.',
+      url: addLocaleToPath('/terms', locale),
+      type: 'website',
+    },
+    alternates: { canonical: addLocaleToPath('/terms', locale) },
+  }
+}
+
+export default async function TermsPage({ params }: Props) {
+  const { locale } = await params
+  const messages = getMessages(locale)
+
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
       <Navigation />
@@ -85,7 +100,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-4">6. Privacy</h2>
             <p className="text-slate-600 leading-relaxed">
               Your use of Image Converter is also governed by our Privacy Policy. Please review our{' '}
-              <Link href="/privacy" className="text-blue-600 hover:text-blue-700 underline">
+              <Link href={addLocaleToPath('/privacy', locale)} className="text-blue-600 hover:text-blue-700 underline">
                 Privacy Policy
               </Link>{' '}
               to understand how we handle your information.
@@ -103,7 +118,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Contact Information</h2>
             <p className="text-slate-600 leading-relaxed">
               If you have any questions about these Terms of Use, please{' '}
-              <Link href="/contact" className="text-blue-600 hover:text-blue-700 underline">
+              <Link href={addLocaleToPath('/contact', locale)} className="text-blue-600 hover:text-blue-700 underline">
                 contact us
               </Link>
               .
@@ -111,7 +126,7 @@ export default function TermsPage() {
           </section>
         </div>
 
-        <BenefitsSection title="Why Choose Image Converter?" subtitle="Free, local, and secure—image conversion the way it should be." />
+        <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
       </main>
       <Footer />

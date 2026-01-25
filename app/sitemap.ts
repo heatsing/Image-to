@@ -1,69 +1,52 @@
 import type { MetadataRoute } from 'next'
 import { getBaseUrl } from '@/lib/seo'
 import { ALL_CONVERTER_SLUGS } from '@/lib/formats'
+import { locales, defaultLocale, type Locale } from '@/lib/i18n/config'
+import { addLocaleToPath } from '@/lib/i18n/config'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = getBaseUrl()
   const now = new Date()
 
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: base, lastModified: now, changeFrequency: 'weekly', priority: 1 },
-    {
-      url: `${base}/convert-to-jpg`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${base}/convert-to-webp`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${base}/convert-to-png`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${base}/about`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/security`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/terms`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/privacy`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${base}/contact`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
+  const staticPaths = [
+    '',
+    '/convert-to-jpg',
+    '/convert-to-webp',
+    '/convert-to-png',
+    '/about',
+    '/security',
+    '/terms',
+    '/privacy',
+    '/contact',
   ]
 
-  const slugPages: MetadataRoute.Sitemap = ALL_CONVERTER_SLUGS.map((slug) => ({
-    url: `${base}/${slug}`,
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
+  const allPages: MetadataRoute.Sitemap = []
 
-  return [...staticPages, ...slugPages]
+  // Generate pages for all locales
+  locales.forEach((locale) => {
+    staticPaths.forEach((path) => {
+      const url = addLocaleToPath(path, locale)
+      const fullUrl = locale === defaultLocale && path === '' ? base : `${base}${url}`
+      
+      allPages.push({
+        url: fullUrl,
+        lastModified: now,
+        changeFrequency: path === '' ? 'weekly' : 'monthly',
+        priority: path === '' ? 1 : path.startsWith('/convert-to-') ? 0.9 : 0.7,
+      })
+    })
+
+    // Add dynamic slug pages for each locale
+    ALL_CONVERTER_SLUGS.forEach((slug) => {
+      const url = addLocaleToPath(`/${slug}`, locale)
+      allPages.push({
+        url: `${base}${url}`,
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.8,
+      })
+    })
+  })
+
+  return allPages
 }

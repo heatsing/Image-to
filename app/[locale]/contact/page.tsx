@@ -5,23 +5,38 @@ import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
+import { type Locale } from '@/lib/i18n/config'
+import { getMessages, t } from '@/lib/i18n'
+import { addLocaleToPath } from '@/lib/i18n/config'
 
-const baseUrl = getBaseUrl()
-const pageTitle = 'Contact us'
-export const metadata: Metadata = {
-  title: pageTitle,
-  description:
-    "Get in touch with Image Converter. Have questions, feedback, or suggestions? We'd love to hear from you.",
-  openGraph: {
-    title: titleWithSuffix(pageTitle),
-    description: 'Get in touch with Image Converter team.',
-    url: `${baseUrl}/contact`,
-    type: 'website',
-  },
-  alternates: { canonical: `${baseUrl}/contact` },
+type Props = {
+  params: Promise<{ locale: Locale }>
 }
 
-export default function ContactPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const baseUrl = getBaseUrl()
+  const messages = getMessages(locale)
+  const pageTitle = messages.common.contact
+  const description = "Get in touch with Image Converter. Have questions, feedback, or suggestions? We'd love to hear from you."
+
+  return {
+    title: pageTitle,
+    description: `${description} | Sckde.com`,
+    openGraph: {
+      title: titleWithSuffix(pageTitle),
+      description: 'Get in touch with Image Converter team.',
+      url: addLocaleToPath('/contact', locale),
+      type: 'website',
+    },
+    alternates: { canonical: addLocaleToPath('/contact', locale) },
+  }
+}
+
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params
+  const messages = getMessages(locale)
+
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
       <Navigation />
@@ -98,7 +113,7 @@ export default function ContactPage() {
             </p>
             <p className="text-slate-600 leading-relaxed">
               For general inquiries, you can also check our{' '}
-              <Link href="/about" className="text-blue-600 hover:text-blue-700 underline">
+              <Link href={addLocaleToPath('/about', locale)} className="text-blue-600 hover:text-blue-700 underline">
                 About Us
               </Link>{' '}
               page for more information about the service.
@@ -113,7 +128,7 @@ export default function ContactPage() {
           </section>
         </div>
 
-        <BenefitsSection title="Why Choose Image Converter?" subtitle="Free, local, and secure—image conversion the way it should be." />
+        <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
       </main>
       <Footer />

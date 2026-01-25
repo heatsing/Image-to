@@ -5,23 +5,38 @@ import BenefitsSection from '@/components/BenefitsSection'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
+import { type Locale } from '@/lib/i18n/config'
+import { getMessages, t } from '@/lib/i18n'
+import { addLocaleToPath } from '@/lib/i18n/config'
 
-const baseUrl = getBaseUrl()
-const pageTitle = 'Security'
-export const metadata: Metadata = {
-  title: pageTitle,
-  description:
-    'Learn about the security measures and privacy protections in place at Image Converter. 100% local processing, no data collection.',
-  openGraph: {
-    title: titleWithSuffix(pageTitle),
-    description: 'Learn about the security measures and privacy protections at Image Converter.',
-    url: `${baseUrl}/security`,
-    type: 'website',
-  },
-  alternates: { canonical: `${baseUrl}/security` },
+type Props = {
+  params: Promise<{ locale: Locale }>
 }
 
-export default function SecurityPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const baseUrl = getBaseUrl()
+  const messages = getMessages(locale)
+  const pageTitle = messages.common.security
+  const description = 'Learn about the security measures and privacy protections in place at Image Converter. 100% local processing, no data collection.'
+
+  return {
+    title: pageTitle,
+    description: `${description} | Sckde.com`,
+    openGraph: {
+      title: titleWithSuffix(pageTitle),
+      description: 'Learn about the security measures and privacy protections at Image Converter.',
+      url: addLocaleToPath('/security', locale),
+      type: 'website',
+    },
+    alternates: { canonical: addLocaleToPath('/security', locale) },
+  }
+}
+
+export default async function SecurityPage({ params }: Props) {
+  const { locale } = await params
+  const messages = getMessages(locale)
+
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
       <Navigation />
@@ -139,7 +154,7 @@ export default function SecurityPage() {
             <h2 className="text-xl font-bold text-slate-900 mb-3">Questions About Security?</h2>
             <p className="text-slate-600 leading-relaxed">
               If you have any questions or concerns about security, please{' '}
-              <Link href="/contact" className="text-blue-600 hover:text-blue-700 underline">
+              <Link href={addLocaleToPath('/contact', locale)} className="text-blue-600 hover:text-blue-700 underline">
                 contact us
               </Link>
               . We're committed to maintaining the highest standards of privacy and security.
@@ -147,7 +162,7 @@ export default function SecurityPage() {
           </section>
         </div>
 
-        <BenefitsSection title="Why Choose Image Converter?" subtitle="Secure, local conversion—your files never leave your device." />
+        <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
       </main>
       <Footer />

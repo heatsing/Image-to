@@ -11,29 +11,37 @@ import {
   getTargetLabel,
 } from '@/lib/formats'
 import { getBaseUrl, titleWithSuffix } from '@/lib/seo'
+import { type Locale, locales } from '@/lib/i18n/config'
+import { getMessages, t } from '@/lib/i18n'
+import { addLocaleToPath } from '@/lib/i18n/config'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-type Props = { params: Promise<{ slug: string }> }
+type Props = {
+  params: Promise<{ locale: Locale; slug: string }>
+}
 
 export const dynamicParams = false
 
 export async function generateStaticParams() {
-  return ALL_CONVERTER_SLUGS.map((slug) => ({ slug }))
+  const slugs = ALL_CONVERTER_SLUGS.flatMap((slug) =>
+    locales.map((locale) => ({ locale, slug }))
+  )
+  return slugs
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
+  const { locale, slug } = await params
   const parsed = parseConverterSlug(slug)
   if (!parsed) return { title: 'Not Found' }
   const { source, target } = parsed
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
   const baseUrl = getBaseUrl()
-  const titlePart = `Convert ${from} to ${to} online for free`
+  const titlePart = t(locale, 'converter.title', { format: to })
   const title = titleWithSuffix(titlePart)
-  const description = `100% free. Convert ${from} to ${to} locally—no uploads, no signup. Your files never leave your device. 40+ formats. Batch convert.`
-  const url = `${baseUrl}/${slug}`
+  const description = t(locale, 'converter.description', { format: to })
+  const url = addLocaleToPath(`/${slug}`, locale)
   const kw = [
     `${from} to ${to}`,
     `convert ${from} to ${to}`,
@@ -43,24 +51,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   ]
   return {
     title: titlePart,
-    description,
+    description: `${description} | Sckde.com`,
     keywords: kw,
-    openGraph: { title, description, url, type: 'website' },
-    twitter: { card: 'summary_large_image', title, description },
+    openGraph: { title, description: `${description} | Sckde.com`, url, type: 'website' },
+    twitter: { card: 'summary_large_image', title, description: `${description} | Sckde.com` },
     alternates: { canonical: url },
   }
 }
 
 export default async function ConverterSlugPage({ params }: Props) {
-  const { slug } = await params
+  const { locale, slug } = await params
   const parsed = parseConverterSlug(slug)
   if (!parsed) notFound()
 
   const { source, target } = parsed
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
-  const title = `${from} to ${to} Converter`
-  const desc = `100% free. Convert ${from} to ${to} locally—no uploads, no signup. Your files never leave your device.`
+  const messages = getMessages(locale)
+  const title = t(locale, 'converter.title', { format: to })
+  const desc = t(locale, 'converter.description', { format: to })
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
@@ -68,11 +77,7 @@ export default async function ConverterSlugPage({ params }: Props) {
       <main className="container mx-auto px-4 py-8 max-w-4xl flex-1">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-slate-900 mb-2">{title}</h2>
-          <p className="text-slate-600 mb-3">
-            100% free. Convert {from} to {to}{' '}
-            <strong>locally</strong>—no uploads, no signup. Your files never
-            leave your device.
-          </p>
+          <p className="text-slate-600 mb-3">{desc}</p>
         </div>
 
         <div className="card rounded-2xl p-6 md:p-8">
@@ -85,20 +90,17 @@ export default async function ConverterSlugPage({ params }: Props) {
 
         <section className="mt-8 mb-8">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">
-              Supported Formats
-            </h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-4">{messages.common.supportedFormats}</h3>
             <FormatGrid target={target} />
           </div>
         </section>
 
         <BenefitsSection
-          title={`Why Use Our ${from} to ${to} Converter?`}
-          subtitle={`Convert ${from} to ${to} locally—fast, free, and secure.`}
+          title={t(locale, 'benefits.title')}
+          subtitle={t(locale, 'benefits.subtitle')}
         />
         <FAQ />
       </main>
-
       <Footer />
     </div>
   )
