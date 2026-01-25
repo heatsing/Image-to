@@ -108,8 +108,9 @@ tojpg/
 
 1. 访问 [Vercel](https://vercel.com)
 2. 导入 GitHub 仓库 `heatsing/Image-to`
-3. Vercel 会自动检测 Next.js 并部署
-4. 几分钟后即可在线访问
+3. 在 **Settings → Environment Variables** 添加：`NEXT_PUBLIC_SITE_URL` = `https://sckde.com`
+4. 绑定自定义域名 **https://sckde.com**（Settings → Domains）
+5. Vercel 会自动检测 Next.js 并部署，几分钟后即可在线访问
 
 ### GitHub Pages
 
@@ -126,5 +127,12 @@ Next.js 需要服务端渲染，GitHub Pages 不支持。建议使用 Vercel 或
 
 ## 项目链接
 
+- **生产站点**: [https://sckde.com](https://sckde.com)
 - **GitHub**: https://github.com/heatsing/Image-to
 - **本地开发**: http://localhost:3002
+
+## SEO / 域名
+
+- 默认 base URL：`https://sckde.com`（`lib/seo.ts`）
+- Sitemap、robots、canonical、Open Graph、Logo 等均使用该域名
+- 部署时设置 `NEXT_PUBLIC_SITE_URL=https://sckde.com` 以保持一致

@@ -1,5 +1,8 @@
 # Logo 文件说明
 
+**站点域名**: [https://sckde.com](https://sckde.com)  
+Logo 与 Open Graph 图片均使用该域名的绝对路径。
+
 ## 需要的文件
 
 ### 1. `public/logo.svg` ✅ (已创建示例)
