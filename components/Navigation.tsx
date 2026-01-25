@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import LanguageSwitcher from './LanguageSwitcher'
 import { getLocaleFromPath, removeLocaleFromPath, addLocaleToPath, type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 
@@ -74,9 +73,8 @@ export default function Navigation() {
             })}
           </nav>
 
-          {/* 右侧：语言切换器 + 移动端菜单按钮 */}
+          {/* 右侧：移动端菜单按钮 */}
           <div className="flex items-center gap-2">
-            <LanguageSwitcher />
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -94,9 +92,6 @@ export default function Navigation() {
               )}
             </button>
           </div>
-          
-          {/* 桌面端占位，保持布局平衡 */}
-          <div className="hidden md:block w-[180px]"></div>
         </div>
 
         {/* 移动端导航菜单 */}
