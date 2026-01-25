@@ -71,7 +71,7 @@ export default function LanguageSwitcher() {
       </button>
 
       {isOpen && (
-        <div className={`absolute right-0 mt-2 w-56 rounded-xl shadow-lg border py-2 z-50 max-h-[400px] overflow-y-auto ${
+        <div className={`absolute right-0 bottom-full mb-2 w-56 rounded-xl shadow-lg border py-2 z-50 max-h-[400px] overflow-y-auto ${
           isInFooter
             ? 'bg-slate-900 border-slate-700'
             : 'bg-white border-slate-200'
