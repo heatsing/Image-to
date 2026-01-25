@@ -17,7 +17,7 @@ git status
 
 echo.
 echo 3. 提交...
-git commit -m "Footer: black background, white text" 2>nul
+git commit -m "Add Header Logo and Site Logo (favicon, Open Graph) support" 2>nul
 if errorlevel 1 (
     echo 无新提交或已提交，继续推送...
 ) else (
