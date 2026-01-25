@@ -38,17 +38,17 @@ export default async function ContactPage({ params }: Props) {
       <Navigation />
       <main className="container mx-auto px-4 py-12 max-w-4xl flex-1">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Contact Us</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">{t(locale, 'pages.contact.title')}</h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Have questions, feedback, or suggestions? We'd love to hear from you!
+            {t(locale, 'pages.contact.subtitle')}
           </p>
         </div>
 
         <div className="card rounded-2xl p-8 md:p-10 space-y-8">
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Get in Touch</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">{t(locale, 'pages.contact.getInTouch.title')}</h2>
             <p className="text-slate-600 leading-relaxed mb-6">
-              We're here to help! Whether you have a question about how to use Image Converter, found a bug, have a feature request, or just want to share your feedback, we'd love to hear from you.
+              {t(locale, 'pages.contact.getInTouch.description')}
             </p>
           </section>
 
@@ -59,9 +59,9 @@ export default async function ContactPage({ params }: Props) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">General Questions</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{t(locale, 'pages.contact.generalQuestions.title')}</h3>
               <p className="text-slate-600 text-sm">
-                Have questions about how to use the converter or need help with a specific format? We're here to help.
+                {t(locale, 'pages.contact.generalQuestions.description')}
               </p>
             </div>
 
@@ -71,9 +71,9 @@ export default async function ContactPage({ params }: Props) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Feature Requests</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{t(locale, 'pages.contact.featureRequests.title')}</h3>
               <p className="text-slate-600 text-sm">
-                Have an idea for a new feature or improvement? Share your suggestions with us.
+                {t(locale, 'pages.contact.featureRequests.description')}
               </p>
             </div>
 
@@ -83,9 +83,9 @@ export default async function ContactPage({ params }: Props) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Report Issues</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{t(locale, 'pages.contact.bugReports.title')}</h3>
               <p className="text-slate-600 text-sm">
-                Found a bug or experiencing an issue? Let us know so we can fix it quickly.
+                {t(locale, 'pages.contact.bugReports.description')}
               </p>
             </div>
 
@@ -95,31 +95,31 @@ export default async function ContactPage({ params }: Props) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Feedback</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{t(locale, 'pages.contact.feedback.title')}</h3>
               <p className="text-slate-600 text-sm">
-                We value your feedback! Share your thoughts on how we can improve the service.
+                {t(locale, 'pages.contact.feedback.description')}
               </p>
             </div>
           </section>
 
           <section className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-            <h2 className="text-xl font-bold text-slate-900 mb-3">How to Reach Us</h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t(locale, 'pages.contact.howToReach.title')}</h2>
             <p className="text-slate-600 leading-relaxed mb-4">
-              Currently, we handle inquiries through our GitHub repository. If you have technical questions, bug reports, or feature requests, please visit our repository and open an issue or discussion.
+              {t(locale, 'pages.contact.howToReach.description1')}
             </p>
             <p className="text-slate-600 leading-relaxed">
-              For general inquiries, you can also check our{' '}
+              {t(locale, 'pages.contact.howToReach.description2')}{' '}
               <Link href={addLocaleToPath('/about', locale)} className="text-blue-600 hover:text-blue-700 underline">
-                About Us
+                {t(locale, 'pages.contact.howToReach.aboutLink')}
               </Link>{' '}
-              page for more information about the service.
+              {t(locale, 'pages.contact.howToReach.description3')}
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Response Time</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">{t(locale, 'pages.contact.responseTime.title')}</h2>
             <p className="text-slate-600 leading-relaxed">
-              We aim to respond to all inquiries within 48-72 hours. Please note that we are a small team, so response times may vary during peak periods. Thank you for your patience!
+              {t(locale, 'pages.contact.responseTime.description')}
             </p>
           </section>
         </div>
