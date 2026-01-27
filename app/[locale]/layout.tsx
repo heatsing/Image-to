@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import '../globals.css'
 import { getBaseUrl, SITE_NAME, TITLE_SUFFIX } from '@/lib/seo'
-import { type Locale, locales, defaultLocale, isValidLocale } from '@/lib/i18n/config'
-import { getMessages, t } from '@/lib/i18n'
-import Navigation from '@/components/Navigation'
-import Footer from '@/components/Footer'
+import { type Locale, locales, defaultLocale } from '@/lib/i18n/config'
+import { getMessages } from '@/lib/i18n'
+import { getOgLocale, getHreflang, getHtmlLang, generateHreflangMap } from '@/lib/seo-i18n'
 
 const baseUrl = getBaseUrl()
 
@@ -20,8 +19,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const messages = getMessages(locale)
-  const lang = locale === 'zh-cn' ? 'zh-CN' : locale === 'zh-tw' ? 'zh-TW' : locale === 'en' ? 'en-US' : locale
-  
+  const ogLocale = getOgLocale(locale)
+
   // Get SEO content from translations
   const seoTitle = messages.seo?.defaultTitle || `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`
   const seoDescription = messages.seo?.defaultDescription || '100% free online image converter. Convert images to JPG, WebP, or PNG locally—no uploads, no signup. Your files never leave your device.'
@@ -36,15 +35,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     'local image conversion',
     'batch image converter'
   ]
-  
-  // Generate hreflang map for all locales
-  const hreflangMap: Record<string, string> = {}
-  locales.forEach((loc) => {
-    const hreflang = loc === 'zh-cn' ? 'zh-CN' : loc === 'zh-tw' ? 'zh-TW' : loc === 'en' ? 'en-US' : loc
-    const url = loc === defaultLocale ? baseUrl : `${baseUrl}/${loc}`
-    hreflangMap[hreflang] = url
-  })
-  
+
+  // Generate hreflang map for all locales (includes x-default)
+  const hreflangMap = generateHreflangMap('')
+
+  // Get alternate locales for OpenGraph (exclude current and x-default)
+  const alternateOgLocales = locales
+    .filter(l => l !== locale)
+    .map(l => getOgLocale(l))
+
+  const canonicalUrl = locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`
+
   return {
     metadataBase: new URL(baseUrl),
     title: {
@@ -56,6 +57,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     authors: [{ name: SITE_NAME, url: baseUrl }],
     creator: SITE_NAME,
     publisher: SITE_NAME,
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
     icons: {
       icon: [
         { url: '/icon.svg', type: 'image/svg+xml' },
@@ -65,8 +71,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     openGraph: {
       type: 'website',
-      locale: lang,
-      url: locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`,
+      locale: ogLocale,
+      url: canonicalUrl,
       siteName: TITLE_SUFFIX,
       title: seoTitle,
       description: seoDescription,
@@ -78,38 +84,47 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           alt: `${SITE_NAME} Logo`,
         },
       ],
-      alternateLocale: Object.keys(hreflangMap).filter(l => l !== lang),
+      alternateLocale: alternateOgLocales,
     },
     twitter: {
       card: 'summary_large_image',
       title: seoTitle,
       description: seoDescription,
       images: [`${baseUrl}/logo.png`],
+      creator: '@sckde',
+      site: '@sckde',
     },
     alternates: {
-      canonical: locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`,
+      canonical: canonicalUrl,
       languages: hreflangMap,
     },
     robots: {
       index: true,
       follow: true,
+      nocache: false,
       googleBot: {
         index: true,
         follow: true,
+        noimageindex: false,
         'max-video-preview': -1,
         'max-image-preview': 'large',
         'max-snippet': -1,
       },
     },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+      yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+    },
+    category: 'technology',
   }
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
-  const lang = locale === 'zh-cn' ? 'zh-CN' : locale === 'zh-tw' ? 'zh-TW' : locale === 'en' ? 'en-US' : locale
+  const htmlLang = getHtmlLang(locale)
 
   return (
-    <html lang={lang} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <html lang={htmlLang} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   )

@@ -1,23 +1,99 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { locales, defaultLocale, isValidLocale, getLocaleFromPath } from './lib/i18n/config'
+import { locales, defaultLocale, isValidLocale, type Locale } from './lib/i18n/config'
+
+/**
+ * Enhanced locale detection from Accept-Language header
+ * Supports regional variants and proper fallback logic
+ */
+function detectLocaleFromHeader(acceptLanguage: string | null): Locale {
+  if (!acceptLanguage) return defaultLocale
+
+  // Parse Accept-Language header (e.g., "en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7")
+  const languages = acceptLanguage
+    .split(',')
+    .map((lang) => {
+      const [code, q = '1'] = lang.trim().split(';q=')
+      const normalizedCode = code.toLowerCase().trim()
+      return { code: normalizedCode, quality: parseFloat(q) || 0 }
+    })
+    .filter((lang) => lang.quality > 0)
+    .sort((a, b) => b.quality - a.quality)
+
+  for (const lang of languages) {
+    const code = lang.code
+
+    // Handle Chinese variants with regional specificity
+    if (code === 'zh-cn' || code === 'zh-hans' || code === 'zh-hans-cn') {
+      return 'zh-cn'
+    }
+    if (code === 'zh-tw' || code === 'zh-hant' || code === 'zh-hant-tw' || code === 'zh-hk' || code === 'zh-mo') {
+      return 'zh-tw'
+    }
+    if (code === 'zh') {
+      // Default Chinese to simplified
+      return 'zh-cn'
+    }
+
+    // Handle Portuguese variants
+    if (code === 'pt-br') {
+      return 'pt' // Brazilian Portuguese maps to our pt locale
+    }
+    if (code.startsWith('pt')) {
+      return 'pt'
+    }
+
+    // Handle Spanish variants (all map to es)
+    if (code.startsWith('es')) {
+      return 'es'
+    }
+
+    // Handle French variants
+    if (code.startsWith('fr')) {
+      return 'fr'
+    }
+
+    // Handle German variants
+    if (code.startsWith('de')) {
+      return 'de'
+    }
+
+    // Handle English variants
+    if (code.startsWith('en')) {
+      return 'en'
+    }
+
+    // Direct match with our supported locales
+    if (isValidLocale(code)) {
+      return code as Locale
+    }
+
+    // Try base language code (e.g., 'ja-JP' -> 'ja')
+    const baseLang = code.split('-')[0]
+    if (isValidLocale(baseLang)) {
+      return baseLang as Locale
+    }
+  }
+
+  return defaultLocale
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  
+
   // Exclude SEO files and system files from locale redirection
   // These files must be accessible at root level for search engines
   const seoFiles = ['/sitemap.xml', '/robots.txt', '/sitemap', '/robots']
-  const isSeoFile = seoFiles.includes(pathname) || 
-                    pathname.endsWith('.xml') || 
+  const isSeoFile = seoFiles.includes(pathname) ||
+                    pathname.endsWith('.xml') ||
                     pathname.endsWith('.txt') ||
                     pathname === '/sitemap' ||
                     pathname === '/robots'
-  
+
   if (isSeoFile) {
     return NextResponse.next()
   }
-  
+
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   )
@@ -27,35 +103,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Try to detect locale from Accept-Language header
+  // Detect locale from Accept-Language header with enhanced detection
   const acceptLanguage = request.headers.get('accept-language')
-  let detectedLocale = defaultLocale
-
-  if (acceptLanguage) {
-    // Parse Accept-Language header (e.g., "en-US,en;q=0.9,zh-CN;q=0.8")
-    const languages = acceptLanguage
-      .split(',')
-      .map((lang) => {
-        const [code, q = '1'] = lang.trim().split(';q=')
-        return { code: code.split('-')[0].toLowerCase(), quality: parseFloat(q) }
-      })
-      .sort((a, b) => b.quality - a.quality)
-
-    // Try to match with our supported locales
-    for (const lang of languages) {
-      // Exact match (e.g., 'en', 'zh')
-      if (isValidLocale(lang.code)) {
-        detectedLocale = lang.code as typeof detectedLocale
-        break
-      }
-      // Try zh-cn/zh-tw for 'zh'
-      if (lang.code === 'zh') {
-        // Default to zh-cn, could be enhanced with region detection
-        detectedLocale = 'zh-cn'
-        break
-      }
-    }
-  }
+  const detectedLocale = detectLocaleFromHeader(acceptLanguage)
 
   // Redirect to locale-prefixed path
   const newUrl = new URL(`/${detectedLocale}${pathname}`, request.url)
