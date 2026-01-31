@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 const STORAGE_KEY = 'sckde_user_rating'
 const INITIAL_VOTES = 4564
-const INITIAL_TOTAL_SCORE = 20538 // ~4.5 average
+const INITIAL_TOTAL_SCORE = 21451 // ~4.7 average
 
 export default function RatingWidget() {
   const [userRating, setUserRating] = useState<number | null>(null)
