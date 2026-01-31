@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
@@ -174,6 +175,16 @@ export default async function PrivacyPage({ params }: Props) {
 
         <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
+
+        <SeoContent
+          title="Your Privacy Matters"
+          content={[
+            "At Image Converter, we believe privacy should be the default, not an afterthought. That's why we built our entire service around the principle of local processing. Your images are processed entirely within your web browser, meaning they never travel across the internet to our servers or any third party.",
+            "This privacy-first approach means you can safely convert sensitive documents, personal photos, confidential business materials, or any other images without worrying about data breaches, unauthorized access, or your files being stored on remote servers.",
+            "We don't require you to create an account, provide an email address, or share any personal information. You can use our converter completely anonymously. We don't track your conversions, don't log your activity, and don't use cookies or analytics that could compromise your privacy.",
+            "Our commitment to privacy extends to our business model as well. We don't monetize user data because we simply don't collect it. The service is sustained through keeping our operations lean and efficient, allowing us to offer a completely free, privacy-respecting image conversion tool.",
+          ]}
+        />
       </main>
       <Footer />
     </div>

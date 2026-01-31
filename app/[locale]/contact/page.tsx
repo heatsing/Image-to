@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
@@ -135,6 +136,16 @@ export default async function ContactPage({ params }: Props) {
 
         <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
+
+        <SeoContent
+          title="Get Help and Support"
+          content={[
+            "We're committed to providing the best possible experience with our image converter. If you encounter any issues, have questions about how to use specific features, or need help with a particular image format, we're here to assist you.",
+            "Our team actively monitors feedback and works continuously to improve the converter. Your suggestions for new features, format support, or usability improvements are invaluable in helping us make the tool better for everyone.",
+            "For technical issues, please include details about your browser, operating system, and the specific image format you're trying to convert. This information helps us diagnose and resolve problems more quickly.",
+            "We also welcome partnerships, integration requests, and business inquiries. Whether you're a developer looking to integrate image conversion capabilities or a business with specific needs, we'd love to explore how we can work together.",
+          ]}
+        />
       </main>
       <Footer />
     </div>

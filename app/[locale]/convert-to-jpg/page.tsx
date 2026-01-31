@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
@@ -68,6 +69,16 @@ export default async function ToJPGPage({ params }: Props) {
 
         <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
+
+        <SeoContent
+          title="About JPG Image Format"
+          content={[
+            "JPG (also known as JPEG) is one of the most widely used image formats in the world. Developed by the Joint Photographic Experts Group, JPG uses lossy compression to reduce file sizes while maintaining acceptable image quality. This makes it ideal for photographs, web images, and any scenario where file size matters.",
+            "Our JPG converter supports over 40 input formats including PNG, WebP, GIF, BMP, TIFF, HEIC, AVIF, SVG, and more. Whether you're converting a single image or batch processing hundreds of files, our tool handles it efficiently with all processing done locally in your browser.",
+            "JPG format is universally supported across all devices, operating systems, and applications. It's the standard format for digital cameras, social media platforms, and email attachments. By converting your images to JPG, you ensure maximum compatibility and easy sharing.",
+            "The converter allows you to adjust quality settings to find the perfect balance between file size and image clarity. Higher quality settings preserve more detail but result in larger files, while lower settings create smaller files suitable for web use and quick sharing.",
+          ]}
+        />
       </main>
       <Footer />
     </div>

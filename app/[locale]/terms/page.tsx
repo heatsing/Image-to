@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
@@ -133,6 +134,16 @@ export default async function TermsPage({ params }: Props) {
 
         <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
+
+        <SeoContent
+          title="Using Image Converter Responsibly"
+          content={[
+            "Image Converter is designed to be a helpful tool for everyone who needs to convert images between different formats. We provide this service free of charge and ask only that users respect our terms and use the tool responsibly.",
+            "While our converter processes files locally on your device, you remain responsible for the content you convert. Please ensure you have the necessary rights to any images you process, whether they're your own photos, licensed stock images, or materials you have permission to use.",
+            "Our service is intended for lawful purposes only. This includes personal use, professional work, educational projects, and any other legitimate activities. We trust our users to make good decisions about how they use the tool.",
+            "By keeping the service free and accessible, we hope to help students, professionals, hobbyists, and anyone else who needs quick, private image conversion. We appreciate your understanding and cooperation in maintaining a positive environment for all users.",
+          ]}
+        />
       </main>
       <Footer />
     </div>

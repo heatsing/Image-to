@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
@@ -68,6 +69,16 @@ export default async function ToPNGPage({ params }: Props) {
 
         <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
+
+        <SeoContent
+          title="About PNG Image Format"
+          content={[
+            "PNG (Portable Network Graphics) is a lossless image format that supports transparency and high color depth. Unlike JPG, PNG preserves every pixel of your original image without any quality loss, making it perfect for graphics, logos, screenshots, and images that require transparency.",
+            "Our PNG converter accepts over 40 input formats including JPG, WebP, GIF, BMP, TIFF, HEIC, AVIF, SVG, and many more. The conversion process is entirely local – your images never leave your device, ensuring complete privacy and security for sensitive content.",
+            "PNG's support for alpha channel transparency makes it the preferred format for web graphics, UI elements, and any image that needs to blend seamlessly with different backgrounds. The format also supports 24-bit RGB and 32-bit RGBA color, providing excellent color accuracy.",
+            "While PNG files are typically larger than JPG due to lossless compression, they're essential when image quality and transparency are priorities. Our converter optimizes the output to achieve the best balance between quality and file size for your specific needs.",
+          ]}
+        />
       </main>
       <Footer />
     </div>

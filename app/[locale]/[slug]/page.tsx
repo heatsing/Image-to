@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import UniversalImageConverter from '@/components/UniversalImageConverter'
 import FormatGrid from '@/components/FormatGrid'
 import {
@@ -137,6 +138,16 @@ export default async function ConverterSlugPage({ params }: Props) {
           subtitle={t(locale, 'benefits.subtitle')}
         />
         <FAQ />
+
+        <SeoContent
+          title={`About ${from} to ${to} Conversion`}
+          content={[
+            `Converting ${from} to ${to} is a common task for many users who need to optimize their images for different purposes. Our free online ${from} to ${to} converter makes this process quick and easy, with all processing done directly in your browser for maximum privacy and security.`,
+            `${from} files are widely used across various platforms and applications. By converting to ${to} format, you can take advantage of ${to}'s specific benefits such as better compression, wider compatibility, or specialized features that suit your needs.`,
+            `Our converter supports high-quality conversion with customizable settings. You can adjust the output quality to balance file size and image clarity according to your requirements. Whether you're preparing images for web use, print, or archival purposes, our tool delivers excellent results.`,
+            `The conversion process is instant and works entirely offline once the page loads. Your ${from} files never leave your device, making this the most secure way to convert sensitive or private images. No registration, no uploads, no waiting – just fast, reliable image conversion.`,
+          ]}
+        />
       </main>
       <Footer />
     </div>

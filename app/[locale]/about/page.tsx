@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
@@ -120,6 +121,16 @@ export default async function AboutPage({ params }: Props) {
 
         <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
+
+        <SeoContent
+          title="Why Choose Our Image Converter"
+          content={[
+            "Image Converter at Sckde.com is built with a privacy-first approach. Unlike traditional online converters that require uploading your files to remote servers, our tool processes everything directly in your web browser. This means your sensitive images, personal photos, and confidential documents never leave your device.",
+            "We support a comprehensive range of image formats to meet all your conversion needs. From common formats like JPG, PNG, and WebP to specialized formats like HEIC (from iPhones), AVIF, TIFF, BMP, and even vector formats like SVG – we've got you covered with over 40 supported input formats.",
+            "Our converter is designed for efficiency. Whether you need to convert a single image or process hundreds of files in batch, the conversion happens instantly. There's no waiting for uploads, no queue, and no server processing delays. Everything runs on your device's processing power.",
+            "Best of all, Image Converter is completely free with no hidden costs, no watermarks, and no registration required. We believe everyone deserves access to professional-quality image conversion tools without barriers or limitations.",
+          ]}
+        />
       </main>
       <Footer />
     </div>

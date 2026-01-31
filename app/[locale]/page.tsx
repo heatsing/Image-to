@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import Link from 'next/link'
 import Script from 'next/script'
 import type { Metadata } from 'next'
@@ -187,6 +188,16 @@ export default async function HomePage({ params }: Props) {
 
         <BenefitsSection />
         <FAQ />
+
+        <SeoContent
+          title="About Free Online Image Converter"
+          content={[
+            "Our free online image converter is a powerful tool that allows you to convert images between different formats instantly. Whether you need to convert photos to JPG for compatibility, optimize images to WebP for faster web loading, or create PNG files with transparency support, our converter handles it all with ease.",
+            "What sets our converter apart is that all processing happens directly in your browser. Your images never leave your device, ensuring complete privacy and security. There's no need to upload files to any server, no registration required, and no waiting for server-side processing.",
+            "We support over 40 input formats including JPEG, PNG, WebP, GIF, BMP, TIFF, HEIC, AVIF, SVG, and many more. You can convert single images or batch process multiple files at once, saving you valuable time when working with large collections of images.",
+            "Our converter is perfect for photographers, web developers, graphic designers, and anyone who needs to work with different image formats. The intuitive drag-and-drop interface makes it easy to use, while advanced options give you control over quality settings and output preferences.",
+          ]}
+        />
       </main>
       <Footer />
     </div>
