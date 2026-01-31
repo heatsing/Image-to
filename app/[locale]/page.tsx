@@ -10,6 +10,7 @@ import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
 import { generatePageMetadata } from '@/lib/seo-i18n'
 import { FAQ_DATA } from '@/lib/faq-data'
+import { getBaseUrl } from '@/lib/seo'
 
 type Props = {
   params: Promise<{ locale: Locale }>
