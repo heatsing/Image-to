@@ -37,21 +37,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { source, target } = parsed
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
-  const titlePart = t(locale, 'converter.title', { format: to })
-  const description = t(locale, 'converter.description', { format: to })
+  // Use specific format keywords: "WebP to JPG Converter" instead of "Image to JPG Converter"
+  const title = `${from} to ${to} Converter`
+  const description = t(locale, 'converter.specificDescription', { from, to }) ||
+    `Convert ${from} to ${to} online for free. 100% local conversion, no upload needed. Fast, secure, and private.`
   const url = addLocaleToPath(`/${slug}`, locale)
   const kw = [
     `${from} to ${to}`,
-    `convert ${from} to ${to}`,
     `${from} to ${to} converter`,
-    'image converter',
+    `convert ${from} to ${to}`,
+    `${from.toLowerCase()} to ${to.toLowerCase()}`,
+    `${from} converter`,
+    `${to} converter`,
     'free image converter',
+    'online converter',
     'local image conversion',
   ]
-  
+
   return generatePageMetadata({
     locale,
-    title: titlePart,
+    title,
     description,
     keywords: kw,
     path: url.startsWith('/') ? url : `/${url}`,
@@ -67,8 +72,10 @@ export default async function ConverterSlugPage({ params }: Props) {
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
   const messages = getMessages(locale)
-  const title = t(locale, 'converter.title', { format: to })
-  const desc = t(locale, 'converter.description', { format: to })
+  // Use specific format keywords: "WebP to JPG Converter"
+  const title = `${from} to ${to} Converter`
+  const desc = t(locale, 'converter.specificDescription', { from, to }) ||
+    `Convert ${from} to ${to} online for free. 100% local conversion, no upload needed.`
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
