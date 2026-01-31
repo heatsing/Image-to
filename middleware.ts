@@ -1,88 +1,18 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { locales, defaultLocale, isValidLocale, type Locale } from './lib/i18n/config'
+import { locales } from './lib/i18n/config'
 
 /**
- * Enhanced locale detection from Accept-Language header
- * Supports regional variants and proper fallback logic
+ * Middleware for locale routing
+ * - English is the default language (no prefix needed in URL)
+ * - Other languages require explicit locale prefix (e.g., /zh-cn, /ja)
+ * - No automatic browser language detection - users choose their language manually
+ * - Uses URL rewrite (not redirect) so English URLs stay clean without /en
  */
-function detectLocaleFromHeader(acceptLanguage: string | null): Locale {
-  if (!acceptLanguage) return defaultLocale
-
-  // Parse Accept-Language header (e.g., "en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7")
-  const languages = acceptLanguage
-    .split(',')
-    .map((lang) => {
-      const [code, q = '1'] = lang.trim().split(';q=')
-      const normalizedCode = code.toLowerCase().trim()
-      return { code: normalizedCode, quality: parseFloat(q) || 0 }
-    })
-    .filter((lang) => lang.quality > 0)
-    .sort((a, b) => b.quality - a.quality)
-
-  for (const lang of languages) {
-    const code = lang.code
-
-    // Handle Chinese variants with regional specificity
-    if (code === 'zh-cn' || code === 'zh-hans' || code === 'zh-hans-cn') {
-      return 'zh-cn'
-    }
-    if (code === 'zh-tw' || code === 'zh-hant' || code === 'zh-hant-tw' || code === 'zh-hk' || code === 'zh-mo') {
-      return 'zh-tw'
-    }
-    if (code === 'zh') {
-      // Default Chinese to simplified
-      return 'zh-cn'
-    }
-
-    // Handle Portuguese variants
-    if (code === 'pt-br') {
-      return 'pt' // Brazilian Portuguese maps to our pt locale
-    }
-    if (code.startsWith('pt')) {
-      return 'pt'
-    }
-
-    // Handle Spanish variants (all map to es)
-    if (code.startsWith('es')) {
-      return 'es'
-    }
-
-    // Handle French variants
-    if (code.startsWith('fr')) {
-      return 'fr'
-    }
-
-    // Handle German variants
-    if (code.startsWith('de')) {
-      return 'de'
-    }
-
-    // Handle English variants
-    if (code.startsWith('en')) {
-      return 'en'
-    }
-
-    // Direct match with our supported locales
-    if (isValidLocale(code)) {
-      return code as Locale
-    }
-
-    // Try base language code (e.g., 'ja-JP' -> 'ja')
-    const baseLang = code.split('-')[0]
-    if (isValidLocale(baseLang)) {
-      return baseLang as Locale
-    }
-  }
-
-  return defaultLocale
-}
-
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Exclude SEO files and system files from locale redirection
-  // These files must be accessible at root level for search engines
+  // Exclude SEO files and system files from any processing
   const seoFiles = ['/sitemap.xml', '/robots.txt', '/sitemap', '/robots']
   const isSeoFile = seoFiles.includes(pathname) ||
                     pathname.endsWith('.xml') ||
@@ -94,22 +24,21 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Check if pathname has a valid locale prefix (non-English)
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   )
 
-  // If pathname already has a locale, continue
+  // If pathname has a locale prefix, continue (user explicitly chose a language)
   if (pathnameHasLocale) {
     return NextResponse.next()
   }
 
-  // Detect locale from Accept-Language header with enhanced detection
-  const acceptLanguage = request.headers.get('accept-language')
-  const detectedLocale = detectLocaleFromHeader(acceptLanguage)
-
-  // Redirect to locale-prefixed path
-  const newUrl = new URL(`/${detectedLocale}${pathname}`, request.url)
-  return NextResponse.redirect(newUrl)
+  // No locale prefix = English (default)
+  // Rewrite to /en internally, but keep URL clean without /en
+  const url = request.nextUrl.clone()
+  url.pathname = `/en${pathname}`
+  return NextResponse.rewrite(url)
 }
 
 export const config = {
@@ -122,10 +51,10 @@ export const config = {
      * - favicon.ico (favicon file)
      * - sitemap.xml, robots.txt (SEO files - MUST be excluded)
      * - logo.svg, logo.png, icon.svg, etc. (public assets)
-     * 
+     *
      * Important: sitemap.xml and robots.txt must be accessible at root
      * for Google Search Console and other search engines.
-     * 
+     *
      * The negative lookahead excludes:
      * - Paths starting with: api, _next/static, _next/image, favicon.ico
      * - Paths exactly matching: sitemap.xml, robots.txt
