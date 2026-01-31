@@ -99,7 +99,7 @@ export default function RatingWidget() {
           <span className="text-lg text-slate-500">/ 5</span>
         </div>
 
-        <p className="text-sm text-amber-600">
+        <p className="text-sm text-slate-800">
           {totalVotes.toLocaleString()} votes
         </p>
 
