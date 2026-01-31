@@ -2,6 +2,7 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import BenefitsSection from '@/components/BenefitsSection'
+import SeoContent from '@/components/SeoContent'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
@@ -168,6 +169,16 @@ export default async function SecurityPage({ params }: Props) {
 
         <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
+
+        <SeoContent
+          title="Security You Can Trust"
+          content={[
+            "Security is at the core of everything we do at Image Converter. By processing all images locally in your browser, we eliminate the most common security risks associated with online file conversion services. Your files never leave your device, which means there's no risk of interception during upload or download.",
+            "Traditional online converters require you to upload your files to their servers, where they could potentially be accessed by unauthorized parties, stored indefinitely, or even used for purposes you didn't consent to. Our local processing approach removes all these risks entirely.",
+            "We use modern web technologies including the HTML5 Canvas API and Web Workers to ensure fast, secure conversion without compromising your browser's security. The conversion process runs in a sandboxed environment within your browser, isolated from other tabs and applications.",
+            "For organizations with strict data security requirements, our approach is ideal. Whether you're handling HIPAA-protected health information, GDPR-regulated personal data, or confidential business documents, you can convert images with confidence knowing they never leave your secure environment.",
+          ]}
+        />
       </main>
       <Footer />
     </div>
