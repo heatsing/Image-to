@@ -8,9 +8,15 @@ import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
-import { generatePageMetadata } from '@/lib/seo-i18n'
 import { FAQ_DATA } from '@/lib/faq-data'
-import { getBaseUrl } from '@/lib/seo'
+import {
+  getBaseUrl,
+  languageAlternates,
+  getCanonicalUrl,
+  getOgLocale,
+  SITE_NAME,
+  TITLE_SUFFIX,
+} from '@/lib/seo'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -19,6 +25,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const messages = getMessages(locale)
+
   const homeTitle = messages.seo?.homeTitle || t(locale, 'home.title')
   const homeDesc = messages.seo?.homeDescription || t(locale, 'home.subtitle')
   const homeKeywords = messages.seo?.homeKeywords || [
@@ -31,13 +38,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     'online image converter',
   ]
 
-  return generatePageMetadata({
-    locale,
+  // Path for homepage
+  const pagePath = '/'
+  const canonical = getCanonicalUrl(pagePath, locale)
+  const alternates = languageAlternates(pagePath)
+  const ogLocale = getOgLocale(locale)
+  const baseUrl = getBaseUrl()
+
+  return {
     title: homeTitle,
     description: homeDesc,
     keywords: homeKeywords,
-    path: locale === 'en' ? '' : `/${locale}`,
-  })
+    openGraph: {
+      type: 'website',
+      locale: ogLocale,
+      url: canonical,
+      siteName: TITLE_SUFFIX,
+      title: homeTitle,
+      description: homeDesc,
+      images: [{ url: `${baseUrl}/logo.png`, width: 1200, height: 630, alt: SITE_NAME }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: homeTitle,
+      description: homeDesc,
+      images: [`${baseUrl}/logo.png`],
+    },
+    alternates: {
+      canonical,
+      languages: alternates,
+    },
+  }
 }
 
 export default async function HomePage({ params }: Props) {

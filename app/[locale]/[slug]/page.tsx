@@ -12,10 +12,16 @@ import {
 } from '@/lib/formats'
 import { type Locale, locales } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
-import { addLocaleToPath } from '@/lib/i18n/config'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { generatePageMetadata } from '@/lib/seo-i18n'
+import {
+  getBaseUrl,
+  languageAlternates,
+  getCanonicalUrl,
+  getOgLocale,
+  SITE_NAME,
+  TITLE_SUFFIX,
+} from '@/lib/seo'
 
 type Props = {
   params: Promise<{ locale: Locale; slug: string }>
@@ -34,15 +40,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   const parsed = parseConverterSlug(slug)
   if (!parsed) return { title: 'Not Found' }
+
   const { source, target } = parsed
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
+
   // Use specific format keywords: "WebP to JPG Converter" instead of "Image to JPG Converter"
   const title = `${from} to ${to} Converter`
-  const description = t(locale, 'converter.specificDescription', { from, to }) ||
-    `Convert ${from} to ${to} online for free. 100% local conversion, no upload needed. Fast, secure, and private.`
-  const url = addLocaleToPath(`/${slug}`, locale)
-  const kw = [
+  const description = `Convert ${from} to ${to} online for free. 100% local conversion, no upload needed. Fast, secure, and private.`
+
+  // Generate canonical and alternates for this page
+  const pagePath = `/${slug}`
+  const canonical = getCanonicalUrl(pagePath, locale)
+  const alternates = languageAlternates(pagePath)
+  const ogLocale = getOgLocale(locale)
+  const baseUrl = getBaseUrl()
+
+  const keywords = [
     `${from} to ${to}`,
     `${from} to ${to} converter`,
     `convert ${from} to ${to}`,
@@ -54,13 +68,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     'local image conversion',
   ]
 
-  return generatePageMetadata({
-    locale,
+  return {
     title,
     description,
-    keywords: kw,
-    path: url.startsWith('/') ? url : `/${url}`,
-  })
+    keywords,
+    openGraph: {
+      type: 'website',
+      locale: ogLocale,
+      url: canonical,
+      siteName: TITLE_SUFFIX,
+      title,
+      description,
+      images: [{ url: `${baseUrl}/logo.png`, width: 1200, height: 630, alt: SITE_NAME }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${baseUrl}/logo.png`],
+    },
+    alternates: {
+      canonical,
+      languages: alternates,
+    },
+  }
 }
 
 export default async function ConverterSlugPage({ params }: Props) {
@@ -72,17 +103,17 @@ export default async function ConverterSlugPage({ params }: Props) {
   const from = slugToLabel(source)
   const to = getTargetLabel(target)
   const messages = getMessages(locale)
+
   // Use specific format keywords: "WebP to JPG Converter"
   const title = `${from} to ${to} Converter`
-  const desc = t(locale, 'converter.specificDescription', { from, to }) ||
-    `Convert ${from} to ${to} online for free. 100% local conversion, no upload needed.`
+  const desc = `Convert ${from} to ${to} online for free. 100% local conversion, no upload needed.`
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
       <Navigation />
       <main className="container mx-auto px-4 py-8 max-w-4xl flex-1">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">{title}</h2>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">{title}</h1>
           <p className="text-slate-600 mb-3">{desc}</p>
         </div>
 
@@ -96,7 +127,7 @@ export default async function ConverterSlugPage({ params }: Props) {
 
         <section className="mt-8 mb-8">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">{messages.common.supportedFormats}</h3>
+            <h2 className="text-lg font-semibold text-slate-800 mb-4">{messages.common.supportedFormats}</h2>
             <FormatGrid target={target} />
           </div>
         </section>
