@@ -122,8 +122,8 @@ export function generatePageMetadata({
   // Use translated SEO keywords if available, otherwise use provided keywords
   const seoKeywords = keywords || messages.seo?.defaultKeywords || []
 
-  // Format title with suffix
-  const fullTitle = title.includes(TITLE_SUFFIX) ? title : `${title} | ${TITLE_SUFFIX}`
+  // Don't add suffix here - layout.tsx template handles it
+  const fullTitle = title
 
   // Generate hreflang map (includes x-default)
   const hreflangMap = generateHreflangMap(normalizedPath)
