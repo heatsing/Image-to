@@ -1,9 +1,18 @@
 import type { Metadata } from 'next'
 import '../globals.css'
-import { getBaseUrl, SITE_NAME, TITLE_SUFFIX } from '@/lib/seo'
-import { type Locale, locales, defaultLocale } from '@/lib/i18n/config'
+import {
+  getBaseUrl,
+  SITE_NAME,
+  TITLE_SUFFIX,
+  languageAlternates,
+  getCanonicalUrl,
+  getOgLocale,
+  getHtmlLang,
+  DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+} from '@/lib/seo'
+import { type Locale, locales } from '@/lib/i18n/config'
 import { getMessages } from '@/lib/i18n'
-import { getOgLocale, getHreflang, getHtmlLang, generateHreflangMap } from '@/lib/seo-i18n'
 
 const baseUrl = getBaseUrl()
 
@@ -12,6 +21,7 @@ type Props = {
   params: Promise<{ locale: Locale }>
 }
 
+// Generate static params for all locales
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
@@ -21,30 +31,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const messages = getMessages(locale)
   const ogLocale = getOgLocale(locale)
 
-  // Get SEO content from translations
-  const seoTitle = messages.seo?.defaultTitle || `Convert images to JPG, WebP, PNG online for free | ${TITLE_SUFFIX}`
-  const seoDescription = messages.seo?.defaultDescription || '100% free online image converter. Convert images to JPG, WebP, or PNG locally—no uploads, no signup. Your files never leave your device.'
-  const seoKeywords = messages.seo?.defaultKeywords || [
-    'image converter',
-    'JPG converter',
-    'WebP converter',
-    'PNG converter',
-    'convert image',
-    'image format converter',
-    'free image converter',
-    'local image conversion',
-    'batch image converter'
-  ]
+  // Get SEO content from translations or defaults
+  const seoTitle = messages.seo?.defaultTitle || `Convert images to JPG, WebP, PNG online for free`
+  const seoDescription = messages.seo?.defaultDescription || DEFAULT_DESCRIPTION
+  const seoKeywords = messages.seo?.defaultKeywords || DEFAULT_KEYWORDS
 
-  // Generate hreflang map for all locales (includes x-default)
-  const hreflangMap = generateHreflangMap('')
-
-  // Get alternate locales for OpenGraph (exclude current and x-default)
-  const alternateOgLocales = locales
-    .filter(l => l !== locale)
-    .map(l => getOgLocale(l))
-
-  const canonicalUrl = locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`
+  // Generate canonical and alternates for root path
+  const canonical = getCanonicalUrl('/', locale)
+  const alternates = languageAlternates('/')
 
   return {
     metadataBase: new URL(baseUrl),
@@ -72,7 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: 'website',
       locale: ogLocale,
-      url: canonicalUrl,
+      url: canonical,
       siteName: TITLE_SUFFIX,
       title: seoTitle,
       description: seoDescription,
@@ -84,19 +78,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           alt: `${SITE_NAME} Logo`,
         },
       ],
-      alternateLocale: alternateOgLocales,
     },
     twitter: {
       card: 'summary_large_image',
       title: seoTitle,
       description: seoDescription,
       images: [`${baseUrl}/logo.png`],
-      creator: '@sckde',
-      site: '@sckde',
     },
     alternates: {
-      canonical: canonicalUrl,
-      languages: hreflangMap,
+      canonical,
+      languages: alternates,
     },
     robots: {
       index: true,
@@ -111,11 +102,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         'max-snippet': -1,
       },
     },
-    verification: {
-      google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
-      yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
-    },
-    category: 'technology',
   }
 }
 

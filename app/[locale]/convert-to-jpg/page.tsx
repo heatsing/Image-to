@@ -7,8 +7,7 @@ import FormatGrid from '@/components/FormatGrid'
 import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
-import { addLocaleToPath } from '@/lib/i18n/config'
-import { generatePageMetadata } from '@/lib/seo-i18n'
+import { languageAlternates, getCanonicalUrl, getOgLocale, getBaseUrl, SITE_NAME, TITLE_SUFFIX } from '@/lib/seo'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -16,61 +15,58 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const pageTitle = t(locale, 'converter.title', { format: 'JPG' })
-  const pageDesc = t(locale, 'converter.description', { format: 'JPG' })
-  const path = addLocaleToPath('/convert-to-jpg', locale)
+  const title = 'Image to JPG Converter'
+  const description = 'Convert any image to JPG online for free. 100% local conversion, no upload needed.'
+  const pagePath = '/convert-to-jpg'
+  const canonical = getCanonicalUrl(pagePath, locale)
+  const alternates = languageAlternates(pagePath)
+  const ogLocale = getOgLocale(locale)
+  const baseUrl = getBaseUrl()
 
-  return generatePageMetadata({
-    locale,
-    title: pageTitle,
-    description: pageDesc,
-    keywords: [
-      'image to JPG',
-      'convert to JPG',
-      'JPG converter',
-      'image converter',
-      'free JPG converter',
-      'local image conversion',
-      'batch JPG converter',
-    ],
-    path: path.startsWith('/') ? path : `/${path}`,
-  })
+  return {
+    title,
+    description,
+    keywords: ['image to JPG', 'convert to JPG', 'JPG converter', 'free JPG converter'],
+    openGraph: {
+      type: 'website',
+      locale: ogLocale,
+      url: canonical,
+      siteName: TITLE_SUFFIX,
+      title,
+      description,
+      images: [{ url: `${baseUrl}/logo.png`, width: 1200, height: 630, alt: SITE_NAME }],
+    },
+    alternates: { canonical, languages: alternates },
+  }
 }
 
 export default async function ToJPGPage({ params }: Props) {
   const { locale } = await params
   const messages = getMessages(locale)
+  const title = t(locale, 'converter.title', { format: 'JPG' })
+  const desc = t(locale, 'converter.description', { format: 'JPG' })
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col">
       <Navigation />
       <main className="container mx-auto px-4 py-8 max-w-4xl flex-1">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">{t(locale, 'converter.title', { format: 'JPG' })}</h2>
-          <p className="text-slate-600 mb-3">
-            {t(locale, 'converter.description', { format: 'JPG' })}
-          </p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">{title}</h1>
+          <p className="text-slate-600 mb-3">{desc}</p>
         </div>
 
         <div className="card rounded-2xl p-6 md:p-8">
-          <UniversalImageConverter
-            outputFormat="jpg"
-            title={t(locale, 'converter.title', { format: 'JPG' })}
-            description={t(locale, 'converter.description', { format: 'JPG' })}
-          />
+          <UniversalImageConverter outputFormat="jpg" title={title} description={desc} />
         </div>
 
         <section className="mt-8 mb-8">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">{messages.common.supportedFormats}</h3>
+            <h2 className="text-lg font-semibold text-slate-800 mb-4">{messages.common.supportedFormats}</h2>
             <FormatGrid target="jpg" />
           </div>
         </section>
 
-        <BenefitsSection
-          title={t(locale, 'benefits.title')}
-          subtitle={t(locale, 'benefits.subtitle')}
-        />
+        <BenefitsSection title={t(locale, 'benefits.title')} subtitle={t(locale, 'benefits.subtitle')} />
         <FAQ />
       </main>
       <Footer />

@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 import { type Locale } from '@/lib/i18n/config'
 import { getMessages, t } from '@/lib/i18n'
 import { addLocaleToPath } from '@/lib/i18n/config'
-import { generatePageMetadata } from '@/lib/seo-i18n'
+import { languageAlternates, getCanonicalUrl, titleWithSuffix, getOgLocale } from '@/lib/seo'
 
 type Props = {
   params: Promise<{ locale: Locale }>
@@ -18,15 +18,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const messages = getMessages(locale)
   const pageTitle = messages.common.privacy
   const description = 'Read the privacy policy for Image Converter. Learn how we protect your privacy with 100% local processing and no data collection.'
-  const path = addLocaleToPath('/privacy', locale)
+  const pagePath = '/privacy'
 
-  return generatePageMetadata({
-    locale,
-    title: pageTitle,
+  return {
+    title: titleWithSuffix(pageTitle),
     description,
     keywords: ['privacy', 'privacy policy', 'data protection', 'image converter'],
-    path: path.startsWith('/') ? path : `/${path}`,
-  })
+    alternates: {
+      canonical: getCanonicalUrl(pagePath, locale),
+      languages: languageAlternates(pagePath),
+    },
+    openGraph: {
+      title: titleWithSuffix(pageTitle),
+      description,
+      locale: getOgLocale(locale),
+      siteName: 'Sckde.com',
+      type: 'website',
+    },
+  }
 }
 
 export default async function PrivacyPage({ params }: Props) {
