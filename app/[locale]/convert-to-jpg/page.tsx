@@ -16,8 +16,9 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const title = 'Image to JPG Converter'
-  const description = 'Convert any image to JPG online for free. 100% local conversion, no upload needed.'
+  const messages = getMessages(locale)
+  const title = messages.seo?.convertToJpg?.title || 'Image to JPG Converter'
+  const description = messages.seo?.convertToJpg?.description || 'Convert any image to JPG online for free. 100% local conversion, no upload needed.'
   const pagePath = '/convert-to-jpg'
   const canonical = getCanonicalUrl(pagePath, locale)
   const alternates = languageAlternates(pagePath)

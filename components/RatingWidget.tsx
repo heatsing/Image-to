@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 
 const STORAGE_KEY = 'sckde_user_rating'
-const INITIAL_VOTES = 12963
-const INITIAL_TOTAL_SCORE = 58334 // ~4.5 average
+const INITIAL_VOTES = 4564
+const INITIAL_TOTAL_SCORE = 21451 // ~4.7 average
 
 export default function RatingWidget() {
   const [userRating, setUserRating] = useState<number | null>(null)
@@ -99,7 +99,7 @@ export default function RatingWidget() {
           <span className="text-lg text-slate-500">/ 5</span>
         </div>
 
-        <p className="text-sm text-amber-600">
+        <p className="text-sm text-slate-800">
           {totalVotes.toLocaleString()} votes
         </p>
 

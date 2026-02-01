@@ -16,8 +16,9 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const title = 'Image to WebP Converter'
-  const description = 'Convert any image to WebP online for free. 100% local conversion, no upload needed.'
+  const messages = getMessages(locale)
+  const title = messages.seo?.convertToWebp?.title || 'Image to WebP Converter'
+  const description = messages.seo?.convertToWebp?.description || 'Convert any image to WebP online for free. 100% local conversion, no upload needed.'
   const pagePath = '/convert-to-webp'
   const canonical = getCanonicalUrl(pagePath, locale)
   const alternates = languageAlternates(pagePath)

@@ -17,20 +17,19 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const messages = getMessages(locale)
-  const pageTitle = messages.common.about
-  const description = t(locale, 'home.subtitle') || 'Learn about Image Converter, a free online tool for converting images to JPG, WebP, or PNG. 100% local conversion, no uploads, no signup.'
+  const title = messages.seo?.about?.title || 'About Us - Free Image Converter Tool'
+  const description = messages.seo?.about?.description || 'Learn about our mission to provide the best free image converter. Privacy-first approach, no uploads, works entirely in your browser.'
   const pagePath = '/about'
 
   return {
-    title: titleWithSuffix(pageTitle),
+    title,
     description,
-    keywords: ['about', 'image converter', 'free tool', 'online converter'],
     alternates: {
       canonical: getCanonicalUrl(pagePath, locale),
       languages: languageAlternates(pagePath),
     },
     openGraph: {
-      title: titleWithSuffix(pageTitle),
+      title,
       description,
       locale: getOgLocale(locale),
       siteName: 'Sckde.com',
