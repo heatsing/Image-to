@@ -17,20 +17,19 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const messages = getMessages(locale)
-  const pageTitle = messages.common.privacy
-  const description = 'Read the privacy policy for Image Converter. Learn how we protect your privacy with 100% local processing and no data collection.'
+  const title = messages.seo?.privacy?.title || 'Privacy Policy - Your Data Stays on Your Device'
+  const description = messages.seo?.privacy?.description || 'Your privacy matters. Our image converter processes files locally in your browser. No uploads, no tracking, no data collection.'
   const pagePath = '/privacy'
 
   return {
-    title: titleWithSuffix(pageTitle),
+    title,
     description,
-    keywords: ['privacy', 'privacy policy', 'data protection', 'image converter'],
     alternates: {
       canonical: getCanonicalUrl(pagePath, locale),
       languages: languageAlternates(pagePath),
     },
     openGraph: {
-      title: titleWithSuffix(pageTitle),
+      title,
       description,
       locale: getOgLocale(locale),
       siteName: 'Sckde.com',

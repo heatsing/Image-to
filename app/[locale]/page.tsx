@@ -27,17 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const messages = getMessages(locale)
 
-  const homeTitle = messages.seo?.homeTitle || t(locale, 'home.title')
-  const homeDesc = messages.seo?.homeDescription || t(locale, 'home.subtitle')
-  const homeKeywords = messages.seo?.homeKeywords || [
-    'image converter',
-    'convert to JPG',
-    'convert to WebP',
-    'convert to PNG',
-    'batch image converter',
-    'free image converter',
-    'online image converter',
-  ]
+  const homeTitle = messages.seo?.home?.title || t(locale, 'home.title')
+  const homeDesc = messages.seo?.home?.description || t(locale, 'home.subtitle')
 
   // Path for homepage
   const pagePath = '/'
@@ -49,7 +40,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: homeTitle,
     description: homeDesc,
-    keywords: homeKeywords,
     openGraph: {
       type: 'website',
       locale: ogLocale,

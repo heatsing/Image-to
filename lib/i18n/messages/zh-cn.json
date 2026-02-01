@@ -82,29 +82,41 @@
     "copyright": "© {year} 图片转换器。保留所有权利。"
   },
   "seo": {
-    "defaultTitle": "免费在线图片格式转换器 - JPG、WebP、PNG | Sckde.com",
-    "defaultDescription": "100% 免费在线图片转换器。在本地将图片转换为 JPG、WebP 或 PNG—无需上传，无需注册。您的文件永远不会离开您的设备。",
-    "defaultKeywords": [
-      "图片转换器",
-      "JPG 转换器",
-      "WebP 转换器",
-      "PNG 转换器",
-      "转换图片",
-      "图片格式转换器",
-      "免费图片转换器",
-      "本地图片转换",
-      "批量图片转换器"
-    ],
-    "homeTitle": "图片格式转换器 - 免费在线工具 | Sckde.com",
-    "homeDescription": "将图片转换为 JPG、WebP 或 PNG。100% 免费且安全。所有转换都在本地进行—您的文件永远不会离开您的设备。",
-    "homeKeywords": [
-      "图片转换器",
-      "转 JPG",
-      "转 WebP",
-      "转 PNG",
-      "批量图片转换器",
-      "免费图片转换器",
-      "在线图片转换器"
-    ]
+    "home": {
+      "title": "免费在线图片转换器 - JPG PNG WebP格式转换 | 无需上传",
+      "description": "浏览器内直接转换图片，支持HEIC、AVIF、WebP等40多种格式。无需上传到服务器，100%隐私安全，完全免费使用！"
+    },
+    "convertToJpg": {
+      "title": "免费转换JPG - HEIC PNG WebP一键转JPEG格式",
+      "description": "快速将任何图片转为JPG格式。支持iPhone的HEIC照片、PNG、WebP等40多种格式。无需安装软件，浏览器即可完成。"
+    },
+    "convertToPng": {
+      "title": "免费转换PNG - 保留透明背景 无损画质",
+      "description": "创建完美透明背景的PNG图片。支持JPG、WebP、HEIC等格式转换。适合Logo、图标、设计素材。免费在线工具。"
+    },
+    "convertToWebp": {
+      "title": "免费转换WebP - 体积减少30% 画质不变",
+      "description": "用WebP格式大幅减小图片体积，让网站加载更快。支持JPG、PNG、HEIC即时转换。无需上传，本地处理。"
+    },
+    "about": {
+      "title": "关于我们 - 免费图片转换工具",
+      "description": "了解我们提供最佳免费图片转换器的使命。隐私优先，无需上传，完全在浏览器中运行。"
+    },
+    "contact": {
+      "title": "联系我们 - 图片转换器支持",
+      "description": "有问题或建议？联系我们的团队。我们随时为您提供图片转换方面的帮助。"
+    },
+    "privacy": {
+      "title": "隐私政策 - 数据留在您的设备",
+      "description": "我们重视您的隐私。图片转换器在浏览器本地处理文件，不上传、不追踪、不收集任何数据。"
+    },
+    "security": {
+      "title": "安全说明 - 私密安全的图片转换",
+      "description": "100%安全的图片转换。文件从不离开您的设备，不上传服务器，不使用云存储。您的图片完全私密。"
+    },
+    "terms": {
+      "title": "使用条款 - 图片转换器",
+      "description": "阅读免费在线图片转换器的使用条款。简单公平的条款，尊重您的隐私。"
+    }
   }
 }
