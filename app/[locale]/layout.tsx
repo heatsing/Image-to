@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import '../globals.css'
 import {
   getBaseUrl,
@@ -111,7 +112,19 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={htmlLang} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-W16THKMBJR"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-gtag" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-W16THKMBJR');`}
+        </Script>
+      </body>
     </html>
   )
 }
