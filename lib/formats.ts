@@ -4,6 +4,7 @@ export type TargetFormat = 'jpg' | 'webp' | 'png'
 export const FORMAT_LABELS: Record<string, string> = {
   webp: 'WebP',
   png: 'PNG',
+  jpg: 'JPG',
   jpeg: 'JPEG',
   jfif: 'JFIF',
   svg: 'SVG',
@@ -42,7 +43,7 @@ export const FORMAT_LABELS: Record<string, string> = {
 
 /** All source format slugs (same for JPG, WebP, PNG) */
 export const FORMAT_SLUGS = [
-  'webp', 'png', 'jpeg', 'jfif', 'svg', 'bmp', 'avif', 'heic', 'tiff',
+  'webp', 'png', 'jpg', 'jpeg', 'jfif', 'svg', 'bmp', 'avif', 'heic', 'tiff',
   'cur', 'dds', 'fts', 'gif', 'hdr', 'ico', 'jpe', 'jps', 'mng', 'pam',
   'pbm', 'pcd', 'pcx', 'pfm', 'pgm', 'picon', 'pict', 'pnm', 'ppm', 'psd',
   'ras', 'rw2', 'sgi', 'tga', 'wbmp', 'xbm', 'xpm',

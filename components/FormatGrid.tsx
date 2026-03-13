@@ -1,10 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   FORMAT_SLUGS,
   slugToLabel,
   toConverterSlug,
   type TargetFormat,
 } from '@/lib/formats'
+import { getLocaleFromPath, addLocaleToPath } from '@/lib/i18n/config'
 
 interface FormatGridProps {
   target: TargetFormat
@@ -17,14 +21,18 @@ const targetLabel: Record<TargetFormat, string> = {
 }
 
 export default function FormatGrid({ target }: FormatGridProps) {
+  const pathname = usePathname()
+  const locale = getLocaleFromPath(pathname)
   const label = targetLabel[target]
+  
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
       {FORMAT_SLUGS.map((source) => {
         // 如果源格式和目标格式相同，使用 jpg 作为源格式
         const displaySource = source === target ? 'jpg' : source
         const from = slugToLabel(displaySource)
-        const href = `/${toConverterSlug(displaySource, target)}`
+        const slug = toConverterSlug(displaySource, target)
+        const href = addLocaleToPath(`/${slug}`, locale)
         return (
           <Link
             key={source}

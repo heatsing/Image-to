@@ -1,0 +1,84 @@
+{
+  "common": {
+    "siteName": "SCKDE.COM",
+    "siteTagline": "Ferramenta de conversão de imagens online",
+    "free": "Gratuito",
+    "online": "Online",
+    "tool": "Ferramenta",
+    "convert": "Converter",
+    "download": "Baixar",
+    "upload": "Enviar",
+    "select": "Selecionar",
+    "dragDrop": "Arraste e solte imagens aqui",
+    "or": "ou",
+    "browse": "Navegar",
+    "supportedFormats": "Formatos suportados",
+    "about": "Sobre nós",
+    "contact": "Contato",
+    "security": "Segurança",
+    "terms": "Termos de uso",
+    "privacy": "Política de privacidade"
+  },
+  "nav": {
+    "imagesToJpg": "Imagens para JPG",
+    "imagesToWebp": "Imagens para WebP",
+    "imagesToPng": "Imagens para PNG"
+  },
+  "home": {
+    "title": "Conversor de formato de imagem",
+    "subtitle": "Converta imagens para JPG, WebP ou PNG. 100% gratuito e seguro. Toda a conversão acontece localmente—seus arquivos nunca saem do seu dispositivo.",
+    "convertToJpg": "Converta qualquer formato de imagem para JPG. Perfeito para fotos e uso na web.",
+    "convertToWebp": "Converta imagens para WebP para tamanhos de arquivo menores e carregamento mais rápido.",
+    "convertToPng": "Converta imagens para PNG para qualidade sem perdas e suporte a transparência.",
+    "convertNow": "Converter agora"
+  },
+  "converter": {
+    "title": "Conversor de imagem para {format}",
+    "description": "100% gratuito. Converta imagens para {format} localmente—sem uploads, sem cadastro. Seus arquivos nunca saem do seu dispositivo.",
+    "localConversion": "Conversão local",
+    "localConversionDesc": "A conversão é executada apenas no seu dispositivo. Os arquivos nunca saem do seu computador—sem uploads, sem servidores.",
+    "superFast": "Super rápido",
+    "superFastDesc": "Cada arquivo leva cerca de 1 segundo para converter. Processe centenas de imagens em lote de uma vez.",
+    "fullyFunctional": "Totalmente funcional",
+    "fullyFunctionalDesc": "Lida com todos os trabalhos envolvidos na conversão de imagem para {format}. De qualquer formato para {format}."
+  },
+  "benefits": {
+    "title": "Por que escolher nosso conversor de imagens?",
+    "subtitle": "Recursos poderosos que tornam a conversão de imagens simples e segura",
+    "local": {
+      "title": "100% Conversão local",
+      "description": "Toda a conversão de imagens acontece completamente no seu dispositivo. Seus arquivos nunca saem do seu computador—sem uploads para servidores, sem coleta de dados, privacidade e segurança completas.",
+      "bullet1": "Nenhum upload de arquivo necessário",
+      "bullet2": "Privacidade de dados completa",
+      "bullet3": "Funciona offline"
+    },
+    "fast": {
+      "title": "Processamento ultrarrápido",
+      "description": "Converta imagens em segundos, não minutos. Nosso motor de conversão otimizado processa cada arquivo em cerca de 1 segundo, e você pode processar centenas de imagens em lote simultaneamente.",
+      "bullet1": "~1 segundo por imagem",
+      "bullet2": "Suporte a processamento em lote",
+      "bullet3": "Sem espera em filas"
+    },
+    "free": {
+      "title": "100% Gratuito para sempre",
+      "description": "Sem taxas ocultas, sem assinaturas, sem marcas d'água. Use nosso conversor de imagens o quanto quiser, sempre que precisar. Completamente gratuito sem condições.",
+      "bullet1": "Nenhum cadastro necessário",
+      "bullet2": "Sem limites de uso",
+      "bullet3": "Sem marcas d'água na saída"
+    },
+    "batch": {
+      "title": "Poder de processamento em lote",
+      "description": "Converta várias imagens de uma vez com nosso poderoso recurso de processamento em lote. Envie centenas de imagens e converta todas de uma vez, economizando horas de trabalho manual.",
+      "bullet1": "Processe centenas de imagens",
+      "bullet2": "Rastreamento de status de arquivos individuais",
+      "bullet3": "Baixe tudo de uma vez"
+    }
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "subtitle": "Tudo o que você precisa saber sobre nosso conversor de imagens"
+  },
+  "footer": {
+    "copyright": "© {year} Conversor de imagens. Todos os direitos reservados."
+  }
+}

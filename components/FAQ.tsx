@@ -1,9 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { getLocaleFromPath } from '@/lib/i18n/config'
+import { getMessages } from '@/lib/i18n'
 import { FAQ_DATA } from '@/lib/faq-data'
 
 export default function FAQ() {
+  const pathname = usePathname()
+  const locale = getLocaleFromPath(pathname)
+  const messages = getMessages(locale)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const toggleItem = (index: number) => {
@@ -13,8 +19,8 @@ export default function FAQ() {
   return (
     <section className="w-full py-12 md:py-16">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Frequently Asked Questions</h2>
-        <p className="text-slate-600">Everything you need to know about our image converter</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">{messages.faq.title}</h2>
+        <p className="text-slate-600">{messages.faq.subtitle}</p>
       </div>
 
       <div className="max-w-3xl mx-auto space-y-3">

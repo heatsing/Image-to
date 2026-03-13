@@ -17,7 +17,7 @@ git status
 
 echo.
 echo 3. 提交...
-git commit -m "SEO + Logo: domain sckde.com, base URL, favicon, Open Graph" 2>nul
+git commit -m "feat: 添加完整的多语言支持系统 (18种语言)" 2>nul
 if errorlevel 1 (
     echo 无新提交或已提交，继续推送...
 ) else (

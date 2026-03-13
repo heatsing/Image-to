@@ -1,0 +1,122 @@
+{
+  "common": {
+    "siteName": "SCKDE.COM",
+    "siteTagline": "图片转换器在线工具",
+    "free": "免费",
+    "online": "在线",
+    "tool": "工具",
+    "convert": "转换",
+    "download": "下载",
+    "upload": "上传",
+    "select": "选择",
+    "dragDrop": "拖放图片到此处",
+    "or": "或",
+    "browse": "浏览",
+    "supportedFormats": "支持的格式",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "security": "安全",
+    "terms": "使用条款",
+    "privacy": "隐私政策"
+  },
+  "nav": {
+    "imagesToJpg": "图片转 JPG",
+    "imagesToWebp": "图片转 WebP",
+    "imagesToPng": "图片转 PNG"
+  },
+  "home": {
+    "title": "图片格式转换器",
+    "subtitle": "将图片转换为 JPG、WebP 或 PNG。100% 免费且安全。所有转换都在本地进行—您的文件永远不会离开您的设备。",
+    "convertToJpg": "将任何图片格式转换为 JPG。非常适合照片和网页使用。",
+    "convertToWebp": "将图片转换为 WebP，文件更小，加载更快。",
+    "convertToPng": "将图片转换为 PNG，无损质量和透明度支持。",
+    "convertNow": "立即转换"
+  },
+  "converter": {
+    "title": "图片转 {format} 转换器",
+    "description": "100% 免费。在本地将图片转换为 {format}—无需上传，无需注册。您的文件永远不会离开您的设备。",
+    "localConversion": "本地转换",
+    "localConversionDesc": "转换仅在您的设备上运行。文件永远不会离开您的计算机—无需上传，无需服务器。",
+    "superFast": "超快速度",
+    "superFastDesc": "每个文件转换大约需要 1 秒。可同时批量处理数百张图片。",
+    "fullyFunctional": "功能完整",
+    "fullyFunctionalDesc": "处理所有图片转 {format} 的转换工作。从任何格式转换为 {format}。"
+  },
+  "benefits": {
+    "title": "为什么选择我们的图片转换器？",
+    "subtitle": "强大的功能让图片转换简单安全",
+    "local": {
+      "title": "100% 本地转换",
+      "description": "所有图片转换完全在您的设备上进行。您的文件永远不会离开您的计算机—不上传到服务器，不收集数据，完全隐私和安全。",
+      "bullet1": "无需上传文件",
+      "bullet2": "完全数据隐私",
+      "bullet3": "可离线使用"
+    },
+    "fast": {
+      "title": "闪电般快速处理",
+      "description": "几秒钟内转换图片，而不是几分钟。我们优化的转换引擎每个文件大约处理 1 秒，您可以同时批量处理数百张图片。",
+      "bullet1": "每张图片约 1 秒",
+      "bullet2": "支持批量处理",
+      "bullet3": "无需排队等待"
+    },
+    "free": {
+      "title": "永久 100% 免费",
+      "description": "无隐藏费用，无订阅，无水印。随时使用我们的图片转换器，完全免费，无任何附加条件。",
+      "bullet1": "无需注册",
+      "bullet2": "无使用限制",
+      "bullet3": "输出无水印"
+    },
+    "batch": {
+      "title": "批量处理能力",
+      "description": "使用我们强大的批量处理功能一次转换多张图片。上传数百张图片并一次性全部转换，节省数小时的手动工作。",
+      "bullet1": "处理数百张图片",
+      "bullet2": "单独文件状态跟踪",
+      "bullet3": "一次性下载全部"
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "subtitle": "关于我们的图片转换器，您需要了解的一切"
+  },
+  "footer": {
+    "copyright": "© {year} 图片转换器。保留所有权利。"
+  },
+  "seo": {
+    "home": {
+      "title": "免费在线图片转换器 - JPG PNG WebP格式转换 | 无需上传",
+      "description": "浏览器内直接转换图片，支持HEIC、AVIF、WebP等40多种格式。无需上传到服务器，100%隐私安全，完全免费使用！"
+    },
+    "convertToJpg": {
+      "title": "免费转换JPG - HEIC PNG WebP一键转JPEG格式",
+      "description": "快速将任何图片转为JPG格式。支持iPhone的HEIC照片、PNG、WebP等40多种格式。无需安装软件，浏览器即可完成。"
+    },
+    "convertToPng": {
+      "title": "免费转换PNG - 保留透明背景 无损画质",
+      "description": "创建完美透明背景的PNG图片。支持JPG、WebP、HEIC等格式转换。适合Logo、图标、设计素材。免费在线工具。"
+    },
+    "convertToWebp": {
+      "title": "免费转换WebP - 体积减少30% 画质不变",
+      "description": "用WebP格式大幅减小图片体积，让网站加载更快。支持JPG、PNG、HEIC即时转换。无需上传，本地处理。"
+    },
+    "about": {
+      "title": "关于我们 - 免费图片转换工具",
+      "description": "了解我们提供最佳免费图片转换器的使命。隐私优先，无需上传，完全在浏览器中运行。"
+    },
+    "contact": {
+      "title": "联系我们 - 图片转换器支持",
+      "description": "有问题或建议？联系我们的团队。我们随时为您提供图片转换方面的帮助。"
+    },
+    "privacy": {
+      "title": "隐私政策 - 数据留在您的设备",
+      "description": "我们重视您的隐私。图片转换器在浏览器本地处理文件，不上传、不追踪、不收集任何数据。"
+    },
+    "security": {
+      "title": "安全说明 - 私密安全的图片转换",
+      "description": "100%安全的图片转换。文件从不离开您的设备，不上传服务器，不使用云存储。您的图片完全私密。"
+    },
+    "terms": {
+      "title": "使用条款 - 图片转换器",
+      "description": "阅读免费在线图片转换器的使用条款。简单公平的条款，尊重您的隐私。"
+    }
+  }
+}

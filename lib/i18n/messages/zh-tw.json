@@ -1,0 +1,84 @@
+{
+  "common": {
+    "siteName": "SCKDE.COM",
+    "siteTagline": "圖片轉換器線上工具",
+    "free": "免費",
+    "online": "線上",
+    "tool": "工具",
+    "convert": "轉換",
+    "download": "下載",
+    "upload": "上傳",
+    "select": "選擇",
+    "dragDrop": "拖放圖片到此處",
+    "or": "或",
+    "browse": "瀏覽",
+    "supportedFormats": "支援的格式",
+    "about": "關於我們",
+    "contact": "聯絡我們",
+    "security": "安全",
+    "terms": "使用條款",
+    "privacy": "隱私政策"
+  },
+  "nav": {
+    "imagesToJpg": "圖片轉 JPG",
+    "imagesToWebp": "圖片轉 WebP",
+    "imagesToPng": "圖片轉 PNG"
+  },
+  "home": {
+    "title": "圖片格式轉換器",
+    "subtitle": "將圖片轉換為 JPG、WebP 或 PNG。100% 免費且安全。所有轉換都在本機進行—您的檔案永遠不會離開您的裝置。",
+    "convertToJpg": "將任何圖片格式轉換為 JPG。非常適合照片和網頁使用。",
+    "convertToWebp": "將圖片轉換為 WebP，檔案更小，載入更快。",
+    "convertToPng": "將圖片轉換為 PNG，無損品質和透明度支援。",
+    "convertNow": "立即轉換"
+  },
+  "converter": {
+    "title": "圖片轉 {format} 轉換器",
+    "description": "100% 免費。在本機將圖片轉換為 {format}—無需上傳，無需註冊。您的檔案永遠不會離開您的裝置。",
+    "localConversion": "本機轉換",
+    "localConversionDesc": "轉換僅在您的裝置上執行。檔案永遠不會離開您的電腦—無需上傳，無需伺服器。",
+    "superFast": "超快速度",
+    "superFastDesc": "每個檔案轉換大約需要 1 秒。可同時批次處理數百張圖片。",
+    "fullyFunctional": "功能完整",
+    "fullyFunctionalDesc": "處理所有圖片轉 {format} 的轉換工作。從任何格式轉換為 {format}。"
+  },
+  "benefits": {
+    "title": "為什麼選擇我們的圖片轉換器？",
+    "subtitle": "強大的功能讓圖片轉換簡單安全",
+    "local": {
+      "title": "100% 本機轉換",
+      "description": "所有圖片轉換完全在您的裝置上進行。您的檔案永遠不會離開您的電腦—不上傳到伺服器，不收集資料，完全隱私和安全。",
+      "bullet1": "無需上傳檔案",
+      "bullet2": "完全資料隱私",
+      "bullet3": "可離線使用"
+    },
+    "fast": {
+      "title": "閃電般快速處理",
+      "description": "幾秒鐘內轉換圖片，而不是幾分鐘。我們優化的轉換引擎每個檔案大約處理 1 秒，您可以同時批次處理數百張圖片。",
+      "bullet1": "每張圖片約 1 秒",
+      "bullet2": "支援批次處理",
+      "bullet3": "無需排隊等待"
+    },
+    "free": {
+      "title": "永久 100% 免費",
+      "description": "無隱藏費用，無訂閱，無浮水印。隨時使用我們的圖片轉換器，完全免費，無任何附加條件。",
+      "bullet1": "無需註冊",
+      "bullet2": "無使用限制",
+      "bullet3": "輸出無浮水印"
+    },
+    "batch": {
+      "title": "批次處理能力",
+      "description": "使用我們強大的批次處理功能一次轉換多張圖片。上傳數百張圖片並一次性全部轉換，節省數小時的手動工作。",
+      "bullet1": "處理數百張圖片",
+      "bullet2": "個別檔案狀態追蹤",
+      "bullet3": "一次性下載全部"
+    }
+  },
+  "faq": {
+    "title": "常見問題",
+    "subtitle": "關於我們的圖片轉換器，您需要了解的一切"
+  },
+  "footer": {
+    "copyright": "© {year} 圖片轉換器。保留所有權利。"
+  }
+}
