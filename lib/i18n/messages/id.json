@@ -1,0 +1,84 @@
+{
+  "common": {
+    "siteName": "SCKDE.COM",
+    "siteTagline": "Alat konversi gambar online",
+    "free": "Gratis",
+    "online": "Online",
+    "tool": "Alat",
+    "convert": "Konversi",
+    "download": "Unduh",
+    "upload": "Unggah",
+    "select": "Pilih",
+    "dragDrop": "Seret dan lepas gambar di sini",
+    "or": "atau",
+    "browse": "Jelajahi",
+    "supportedFormats": "Format yang didukung",
+    "about": "Tentang kami",
+    "contact": "Hubungi kami",
+    "security": "Keamanan",
+    "terms": "Syarat penggunaan",
+    "privacy": "Kebijakan privasi"
+  },
+  "nav": {
+    "imagesToJpg": "Gambar ke JPG",
+    "imagesToWebp": "Gambar ke WebP",
+    "imagesToPng": "Gambar ke PNG"
+  },
+  "home": {
+    "title": "Konverter format gambar",
+    "subtitle": "Konversi gambar ke JPG, WebP, atau PNG. 100% gratis dan aman. Semua konversi terjadi secara lokal—file Anda tidak pernah meninggalkan perangkat Anda.",
+    "convertToJpg": "Konversi format gambar apa pun ke JPG. Sempurna untuk foto dan penggunaan web.",
+    "convertToWebp": "Konversi gambar ke WebP untuk ukuran file yang lebih kecil dan pemuatan yang lebih cepat.",
+    "convertToPng": "Konversi gambar ke PNG untuk kualitas tanpa kehilangan dan dukungan transparansi.",
+    "convertNow": "Konversi sekarang"
+  },
+  "converter": {
+    "title": "Konverter gambar ke {format}",
+    "description": "100% gratis. Konversi gambar ke {format} secara lokal—tanpa unggah, tanpa pendaftaran. File Anda tidak pernah meninggalkan perangkat Anda.",
+    "localConversion": "Konversi lokal",
+    "localConversionDesc": "Konversi hanya berjalan di perangkat Anda. File tidak pernah meninggalkan komputer Anda—tanpa unggah, tanpa server.",
+    "superFast": "Super cepat",
+    "superFastDesc": "Setiap file membutuhkan sekitar 1 detik untuk dikonversi. Proses ratusan gambar secara batch sekaligus.",
+    "fullyFunctional": "Fungsional penuh",
+    "fullyFunctionalDesc": "Menangani semua pekerjaan yang terlibat dalam konversi gambar ke {format}. Dari format apa pun ke {format}."
+  },
+  "benefits": {
+    "title": "Mengapa memilih konverter gambar kami?",
+    "subtitle": "Fitur canggih yang membuat konversi gambar menjadi sederhana dan aman",
+    "local": {
+      "title": "100% Konversi lokal",
+      "description": "Semua konversi gambar terjadi sepenuhnya di perangkat Anda. File Anda tidak pernah meninggalkan komputer Anda—tanpa unggah ke server, tanpa pengumpulan data, privasi dan keamanan lengkap.",
+      "bullet1": "Tidak perlu unggah file",
+      "bullet2": "Privasi data lengkap",
+      "bullet3": "Berfungsi offline"
+    },
+    "fast": {
+      "title": "Pemrosesan sangat cepat",
+      "description": "Konversi gambar dalam hitungan detik, bukan menit. Mesin konversi yang dioptimalkan kami memproses setiap file dalam sekitar 1 detik, dan Anda dapat memproses ratusan gambar secara batch secara bersamaan.",
+      "bullet1": "~1 detik per gambar",
+      "bullet2": "Dukungan pemrosesan batch",
+      "bullet3": "Tidak ada antrian menunggu"
+    },
+    "free": {
+      "title": "100% Gratis selamanya",
+      "description": "Tidak ada biaya tersembunyi, tidak ada langganan, tidak ada watermark. Gunakan konverter gambar kami sebanyak yang Anda inginkan, kapan pun Anda membutuhkannya. Sepenuhnya gratis tanpa syarat.",
+      "bullet1": "Tidak perlu pendaftaran",
+      "bullet2": "Tidak ada batas penggunaan",
+      "bullet3": "Tidak ada watermark pada output"
+    },
+    "batch": {
+      "title": "Kekuatan pemrosesan batch",
+      "description": "Konversi beberapa gambar sekaligus dengan fitur pemrosesan batch yang kuat. Unggah ratusan gambar dan konversi semuanya sekaligus, menghemat jam kerja manual.",
+      "bullet1": "Proses ratusan gambar",
+      "bullet2": "Pelacakan status file individual",
+      "bullet3": "Unduh semuanya sekaligus"
+    }
+  },
+  "faq": {
+    "title": "Pertanyaan yang sering diajukan",
+    "subtitle": "Semua yang perlu Anda ketahui tentang konverter gambar kami"
+  },
+  "footer": {
+    "copyright": "© {year} Konverter gambar. Hak cipta dilindungi."
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "common": {
+    "siteName": "SCKDE.COM",
+    "siteTagline": "Image Converter Online Tool",
+    "free": "Free",
+    "online": "Online",
+    "tool": "Tool",
+    "convert": "Convert",
+    "download": "Download",
+    "upload": "Upload",
+    "select": "Select",
+    "dragDrop": "Drag and drop images here",
+    "or": "or",
+    "browse": "Browse",
+    "supportedFormats": "Supported Formats",
+    "about": "About us",
+    "contact": "Contact us",
+    "security": "Security",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy"
+  },
+  "nav": {
+    "imagesToJpg": "Images to JPG",
+    "imagesToWebp": "Images to WebP",
+    "imagesToPng": "Images to PNG"
+  },
+  "home": {
+    "title": "Image Format Converter",
+    "subtitle": "Convert images to JPG, WebP, or PNG. 100% free and secure. All conversion happens locally—your files never leave your device.",
+    "convertToJpg": "Convert any image format to JPG. Perfect for photos and web use.",
+    "convertToWebp": "Convert images to WebP for smaller file sizes and faster loading.",
+    "convertToPng": "Convert images to PNG for lossless quality and transparency support.",
+    "convertNow": "Convert Now"
+  },
+  "converter": {
+    "title": "Image to {format} Converter",
+    "description": "100% free. Convert images to {format} locally—no uploads, no signup. Your files never leave your device.",
+    "localConversion": "Local conversion",
+    "localConversionDesc": "Conversion runs on your device only. Files never leave your computer—no uploads, no servers.",
+    "superFast": "Super Fast",
+    "superFastDesc": "Each file costs about 1 second for conversion. Batch process hundreds of images at once.",
+    "fullyFunctional": "Fully Functional",
+    "fullyFunctionalDesc": "Handles all jobs involved with image to {format} conversion. From any format to {format}."
+  },
+  "benefits": {
+    "title": "Why Choose Our Image Converter?",
+    "subtitle": "Powerful features that make image conversion simple and secure",
+    "local": {
+      "title": "100% Local Conversion",
+      "description": "All image conversion happens entirely on your device. Your files never leave your computer—no uploads to servers, no data collection, complete privacy and security.",
+      "bullet1": "No file uploads required",
+      "bullet2": "Complete data privacy",
+      "bullet3": "Works offline"
+    },
+    "fast": {
+      "title": "Lightning Fast Processing",
+      "description": "Convert images in seconds, not minutes. Our optimized conversion engine processes each file in about 1 second, and you can batch process hundreds of images simultaneously.",
+      "bullet1": "~1 second per image",
+      "bullet2": "Batch processing support",
+      "bullet3": "No waiting in queues"
+    },
+    "free": {
+      "title": "100% Free Forever",
+      "description": "No hidden fees, no subscriptions, no watermarks. Use our image converter as much as you want, whenever you need it. Completely free with no strings attached.",
+      "bullet1": "No signup required",
+      "bullet2": "No usage limits",
+      "bullet3": "No watermarks on output"
+    },
+    "batch": {
+      "title": "Batch Processing Power",
+      "description": "Convert multiple images at once with our powerful batch processing feature. Upload hundreds of images and convert them all in one go, saving you hours of manual work.",
+      "bullet1": "Process hundreds of images",
+      "bullet2": "Individual file status tracking",
+      "bullet3": "Download all at once"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our image converter"
+  },
+  "footer": {
+    "copyright": "© {year} Image Converter. All rights reserved."
+  },
+  "seo": {
+    "home": {
+      "title": "Free Image Converter Online - JPG, PNG, WebP | No Upload",
+      "description": "Convert images instantly in your browser. Support for 40+ formats including HEIC, AVIF, WebP. No upload needed, 100% private and free. Try it now!"
+    },
+    "convertToJpg": {
+      "title": "Convert to JPG Free - HEIC, PNG, WebP to JPEG Online",
+      "description": "Turn any image into JPG format instantly. Works with HEIC from iPhone, PNG, WebP, and 40+ formats. No software install, runs in your browser."
+    },
+    "convertToPng": {
+      "title": "Convert to PNG Free - Keep Transparency, Lossless Quality",
+      "description": "Create PNG images with perfect transparency. Convert from JPG, WebP, HEIC and more. Ideal for logos, graphics, and design work. Free online tool."
+    },
+    "convertToWebp": {
+      "title": "Convert to WebP Free - Smaller Files, Same Quality",
+      "description": "Reduce image file size by 30% with WebP format. Perfect for faster websites. Convert from JPG, PNG, HEIC instantly. No upload required."
+    },
+    "about": {
+      "title": "About Us - Free Image Converter Tool",
+      "description": "Learn about our mission to provide the best free image converter. Privacy-first approach, no uploads, works entirely in your browser."
+    },
+    "contact": {
+      "title": "Contact Us - Image Converter Support",
+      "description": "Have questions or feedback? Get in touch with our team. We're here to help with any image conversion needs."
+    },
+    "privacy": {
+      "title": "Privacy Policy - Your Data Stays on Your Device",
+      "description": "Your privacy matters. Our image converter processes files locally in your browser. No uploads, no tracking, no data collection."
+    },
+    "security": {
+      "title": "Security - Safe and Private Image Conversion",
+      "description": "100% secure image conversion. Files never leave your device. No server uploads, no cloud storage. Your images stay private."
+    },
+    "terms": {
+      "title": "Terms of Use - Image Converter",
+      "description": "Read our terms of use for the free online image converter. Simple, fair terms for a tool that respects your privacy."
+    }
+  }
+}

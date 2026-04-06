@@ -1,0 +1,84 @@
+{
+  "common": {
+    "siteName": "SCKDE.COM",
+    "siteTagline": "Outil de conversion d'images en ligne",
+    "free": "Gratuit",
+    "online": "En ligne",
+    "tool": "Outil",
+    "convert": "Convertir",
+    "download": "Télécharger",
+    "upload": "Téléverser",
+    "select": "Sélectionner",
+    "dragDrop": "Glissez-déposez des images ici",
+    "or": "ou",
+    "browse": "Parcourir",
+    "supportedFormats": "Formats pris en charge",
+    "about": "À propos de nous",
+    "contact": "Nous contacter",
+    "security": "Sécurité",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité"
+  },
+  "nav": {
+    "imagesToJpg": "Images en JPG",
+    "imagesToWebp": "Images en WebP",
+    "imagesToPng": "Images en PNG"
+  },
+  "home": {
+    "title": "Convertisseur de format d'image",
+    "subtitle": "Convertissez des images en JPG, WebP ou PNG. 100% gratuit et sécurisé. Toute la conversion se fait localement—vos fichiers ne quittent jamais votre appareil.",
+    "convertToJpg": "Convertissez n'importe quel format d'image en JPG. Parfait pour les photos et l'utilisation web.",
+    "convertToWebp": "Convertissez des images en WebP pour des tailles de fichier plus petites et un chargement plus rapide.",
+    "convertToPng": "Convertissez des images en PNG pour une qualité sans perte et le support de la transparence.",
+    "convertNow": "Convertir maintenant"
+  },
+  "converter": {
+    "title": "Convertisseur d'image en {format}",
+    "description": "100% gratuit. Convertissez des images en {format} localement—sans téléversement, sans inscription. Vos fichiers ne quittent jamais votre appareil.",
+    "localConversion": "Conversion locale",
+    "localConversionDesc": "La conversion s'exécute uniquement sur votre appareil. Les fichiers ne quittent jamais votre ordinateur—sans téléversement, sans serveurs.",
+    "superFast": "Ultra rapide",
+    "superFastDesc": "Chaque fichier prend environ 1 seconde à convertir. Traitez des centaines d'images par lots à la fois.",
+    "fullyFunctional": "Entièrement fonctionnel",
+    "fullyFunctionalDesc": "Gère tous les travaux impliqués dans la conversion d'image en {format}. De n'importe quel format vers {format}."
+  },
+  "benefits": {
+    "title": "Pourquoi choisir notre convertisseur d'images ?",
+    "subtitle": "Des fonctionnalités puissantes qui rendent la conversion d'images simple et sécurisée",
+    "local": {
+      "title": "100% Conversion locale",
+      "description": "Toute la conversion d'images se fait entièrement sur votre appareil. Vos fichiers ne quittent jamais votre ordinateur—sans téléversement vers les serveurs, sans collecte de données, confidentialité et sécurité complètes.",
+      "bullet1": "Aucun téléversement de fichier requis",
+      "bullet2": "Confidentialité des données complète",
+      "bullet3": "Fonctionne hors ligne"
+    },
+    "fast": {
+      "title": "Traitement ultra rapide",
+      "description": "Convertissez des images en secondes, pas en minutes. Notre moteur de conversion optimisé traite chaque fichier en environ 1 seconde, et vous pouvez traiter des centaines d'images par lots simultanément.",
+      "bullet1": "~1 seconde par image",
+      "bullet2": "Support du traitement par lots",
+      "bullet3": "Pas d'attente dans les files d'attente"
+    },
+    "free": {
+      "title": "100% Gratuit pour toujours",
+      "description": "Pas de frais cachés, pas d'abonnements, pas de filigranes. Utilisez notre convertisseur d'images autant que vous le souhaitez, quand vous en avez besoin. Complètement gratuit sans conditions.",
+      "bullet1": "Aucune inscription requise",
+      "bullet2": "Aucune limite d'utilisation",
+      "bullet3": "Pas de filigranes sur la sortie"
+    },
+    "batch": {
+      "title": "Puissance du traitement par lots",
+      "description": "Convertissez plusieurs images à la fois avec notre fonctionnalité puissante de traitement par lots. Téléversez des centaines d'images et convertissez-les toutes en une seule fois, vous faisant économiser des heures de travail manuel.",
+      "bullet1": "Traitez des centaines d'images",
+      "bullet2": "Suivi de l'état des fichiers individuels",
+      "bullet3": "Téléchargez tout en une fois"
+    }
+  },
+  "faq": {
+    "title": "Questions fréquemment posées",
+    "subtitle": "Tout ce que vous devez savoir sur notre convertisseur d'images"
+  },
+  "footer": {
+    "copyright": "© {year} Convertisseur d'images. Tous droits réservés."
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "common": {
+    "siteName": "SCKDE.COM",
+    "siteTagline": "Online-Bildkonverter-Tool",
+    "free": "Kostenlos",
+    "online": "Online",
+    "tool": "Tool",
+    "convert": "Konvertieren",
+    "download": "Herunterladen",
+    "upload": "Hochladen",
+    "select": "Auswählen",
+    "dragDrop": "Bilder hierher ziehen und ablegen",
+    "or": "oder",
+    "browse": "Durchsuchen",
+    "supportedFormats": "Unterstützte Formate",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "security": "Sicherheit",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzrichtlinie"
+  },
+  "nav": {
+    "imagesToJpg": "Bilder zu JPG",
+    "imagesToWebp": "Bilder zu WebP",
+    "imagesToPng": "Bilder zu PNG"
+  },
+  "home": {
+    "title": "Bildformat-Konverter",
+    "subtitle": "Konvertieren Sie Bilder in JPG, WebP oder PNG. 100% kostenlos und sicher. Die gesamte Konvertierung erfolgt lokal—Ihre Dateien verlassen niemals Ihr Gerät.",
+    "convertToJpg": "Konvertieren Sie jedes Bildformat in JPG. Perfekt für Fotos und Web-Nutzung.",
+    "convertToWebp": "Konvertieren Sie Bilder in WebP für kleinere Dateigrößen und schnellere Ladezeiten.",
+    "convertToPng": "Konvertieren Sie Bilder in PNG für verlustfreie Qualität und Transparenz-Unterstützung.",
+    "convertNow": "Jetzt konvertieren"
+  },
+  "converter": {
+    "title": "Bild zu {format} Konverter",
+    "description": "100% kostenlos. Konvertieren Sie Bilder lokal in {format}—keine Uploads, keine Anmeldung. Ihre Dateien verlassen niemals Ihr Gerät.",
+    "localConversion": "Lokale Konvertierung",
+    "localConversionDesc": "Die Konvertierung läuft nur auf Ihrem Gerät. Dateien verlassen niemals Ihren Computer—keine Uploads, keine Server.",
+    "superFast": "Blitzschnell",
+    "superFastDesc": "Jede Datei benötigt etwa 1 Sekunde für die Konvertierung. Verarbeiten Sie Hunderte von Bildern gleichzeitig in Stapeln.",
+    "fullyFunctional": "Voll funktionsfähig",
+    "fullyFunctionalDesc": "Behandelt alle Aufgaben bei der Bild-zu-{format}-Konvertierung. Von jedem Format zu {format}."
+  },
+  "benefits": {
+    "title": "Warum unseren Bildkonverter wählen?",
+    "subtitle": "Leistungsstarke Funktionen, die die Bildkonvertierung einfach und sicher machen",
+    "local": {
+      "title": "100% Lokale Konvertierung",
+      "description": "Die gesamte Bildkonvertierung erfolgt vollständig auf Ihrem Gerät. Ihre Dateien verlassen niemals Ihren Computer—keine Uploads zu Servern, keine Datenerfassung, vollständige Privatsphäre und Sicherheit.",
+      "bullet1": "Keine Datei-Uploads erforderlich",
+      "bullet2": "Vollständige Datenschutz",
+      "bullet3": "Funktioniert offline"
+    },
+    "fast": {
+      "title": "Blitzschnelle Verarbeitung",
+      "description": "Konvertieren Sie Bilder in Sekunden, nicht in Minuten. Unsere optimierte Konvertierungs-Engine verarbeitet jede Datei in etwa 1 Sekunde, und Sie können Hunderte von Bildern gleichzeitig stapelweise verarbeiten.",
+      "bullet1": "~1 Sekunde pro Bild",
+      "bullet2": "Stapelverarbeitungs-Unterstützung",
+      "bullet3": "Kein Warten in Warteschlangen"
+    },
+    "free": {
+      "title": "100% Kostenlos für immer",
+      "description": "Keine versteckten Gebühren, keine Abonnements, keine Wasserzeichen. Verwenden Sie unseren Bildkonverter so oft Sie möchten, wann immer Sie ihn benötigen. Völlig kostenlos ohne Bedingungen.",
+      "bullet1": "Keine Anmeldung erforderlich",
+      "bullet2": "Keine Nutzungsbeschränkungen",
+      "bullet3": "Keine Wasserzeichen auf der Ausgabe"
+    },
+    "batch": {
+      "title": "Stapelverarbeitungs-Leistung",
+      "description": "Konvertieren Sie mehrere Bilder gleichzeitig mit unserer leistungsstarken Stapelverarbeitungs-Funktion. Laden Sie Hunderte von Bildern hoch und konvertieren Sie sie alle auf einmal, was Ihnen Stunden manueller Arbeit erspart.",
+      "bullet1": "Verarbeiten Sie Hunderte von Bildern",
+      "bullet2": "Einzelne Dateistatus-Verfolgung",
+      "bullet3": "Alles auf einmal herunterladen"
+    }
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "subtitle": "Alles, was Sie über unseren Bildkonverter wissen müssen"
+  },
+  "footer": {
+    "copyright": "© {year} Bildkonverter. Alle Rechte vorbehalten."
+  }
+}
